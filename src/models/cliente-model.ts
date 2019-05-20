@@ -1,26 +1,27 @@
-import mongoose from 'mongoose'
-import { alreadyInsert } from './../util/messages'
+import { Schema, model, Document } from 'mongoose'
 
-const Cliente = new mongoose.Schema({
+interface ClienteInterface extends Document{
+  nome?: string
+  email?: string
+  cpf?: string
+  nascimento?: string
+  celular?: string
+  compras?: Compras[]
+}
+
+const Cliente = new Schema({
   nome: { type: String, required: true },
   email: { type: String, required: true },
-  cpf: { type: String,
-    required: true,
-    validate: [{
-      validator: async (cpf): Promise<boolean> => {
-        let search = await mongoose.model('Cliente').find({ cpf: cpf })
-
-        if (search.length > 0) {
-          return false
-        }
-      },
-      msg: alreadyInsert('cpf')
-    }] },
+  cpf: { type: String, required: true },
   nascimento: { type: Date, required: true },
   celular: { type: String, required: true },
-  compras: [{ type: mongoose.Schema.Types.ObjectId, red: 'Venda' }]
+  compras: [{ type: Schema.Types.ObjectId, red: 'Venda' }]
 }, {
   timestamps: true
 })
 
-export default mongoose.model('Cliente', Cliente)
+export default model<ClienteInterface>('Cliente', Cliente)
+
+export class Compras {
+  public id: string
+}

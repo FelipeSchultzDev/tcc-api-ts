@@ -8,19 +8,17 @@ import ColorCMD from '../util/ColorCMD'
 import jwt from './../middlewares/authentication'
 
 // // Rotas
-import Cliente from '../routes/cliente-routes'
-import Funcionario from '../routes/funcionario-routes'
-import Marca from '../routes/marca-routes'
-import Movimento from '../routes/movimento-routes'
-import Produto from '../routes/produto-routes'
-import Venda from '../routes/venda-routes'
-import login from '../routes/login-routes'
+import routes from '../routes/routes'
+import loginRoutes from '../routes/login.routes'
 
 class App {
     public express: express.Application
 
     public constructor () {
       this.express = express()
+      this.middlewares()
+      this.database()
+      this.routes()
     }
 
     private middlewares (): void {
@@ -45,14 +43,9 @@ class App {
     }
 
     private routes (): void {
-      this.express.use('/api/login', login)
+      this.express.use('/login', loginRoutes)
       this.express.use(jwt)
-      this.express.use('/api/cliente', Cliente)
-      this.express.use('/api/funcionario', Funcionario)
-      this.express.use('/api/marca', Marca)
-      this.express.use('/api/movimento', Movimento)
-      this.express.use('/api/produto', Produto)
-      this.express.use('/api/venda', Venda)
+      this.express.use('/', routes)
     }
 }
 

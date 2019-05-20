@@ -1,3 +1,5 @@
+import { Request, Response } from 'express'
+
 import Funcionario from './../models/funcionario-model'
 import {
   notFoundId,
@@ -9,7 +11,7 @@ import {
   errorDelete
 } from './../util/messages'
 
-export class Response {
+export class Resp {
     public success: boolean;
     public funcionarios: {};
     public msg: [string];
@@ -18,13 +20,13 @@ export class Response {
 class FuncionarioController {
     public type = 'funcionario'
 
-    public async searchById (req, res): Promise<void> {
-      let resp = new Response()
+    public async searchById (req: Request, res: Response): Promise<void> {
+      let resp = new Resp()
 
       await Funcionario.findById(req.body._id)
         .populate('permissao', 'nome', 'Permissao')
         .select(' _id nome email cpf nascimento celular permissao')
-        .then((funcionario): void => {
+        .then((funcionario): Response => {
           if (!funcionario) {
             resp.success = false
             resp.msg.push(notFoundId(this.type))
@@ -33,7 +35,7 @@ class FuncionarioController {
           resp.funcionarios = funcionario
           return res.status(200).json(resp)
         })
-        .catch((): void => {
+        .catch((): Response => {
           resp.success = false
           resp.msg.push(errorGet(this.type))
           return res.status(400).json(resp)

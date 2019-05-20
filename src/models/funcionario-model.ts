@@ -1,8 +1,18 @@
-import mongoose from 'mongoose'
-// import { alreadyInsert, idPermission } from './../util/messages'
-// const validator = require('mongoose-unique-validator')
+import { Schema, model, Document } from 'mongoose'
 
-const Funcionario = new mongoose.Schema({
+interface FuncionarioInterface extends Document{
+  nome?: string
+  email?: string
+  cpf?: string
+  nascimento?: string
+  celular?: string
+  usuario?: string
+  senha?: string
+  permissao?: string
+  status?: boolean
+}
+
+const Funcionario = new Schema({
   nome: { type: String, required: true },
   email: { type: String, required: true },
   cpf: { type: String, required: true, unique: true },
@@ -10,10 +20,9 @@ const Funcionario = new mongoose.Schema({
   celular: { type: String, required: true },
   usuario: { type: String, required: true, lowercase: true, index: true },
   senha: { type: String, required: true, index: true },
-  permissao: { type: mongoose.Schema.Types.ObjectId },
+  permissao: { type: Schema.Types.ObjectId },
   status: { type: Boolean, required: true, default: true }
 }, {
   timestamps: false
 })
-// Funcionario.plugin(validator, { message: '{PATH} já existente!' })
-export default mongoose.model('Funcionario', Funcionario)
+export default model<FuncionarioInterface>('Funcionario', Funcionario)

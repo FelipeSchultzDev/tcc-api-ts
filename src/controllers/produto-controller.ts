@@ -1,25 +1,27 @@
-const Produto = require('../models/Produto-model');
+import { Request, Response } from 'express'
+
+// import Produto from '../models/produto-model'
 
 class ProdutoController {
-    async searchById(req, res) {
-        return res.status(200).json({ success: false, msg: 'Serviço não criado' });
-    }
+  public async searchById (req: Request, res: Response): Promise<Response> {
+    return res.status(200).json({ success: false, msg: 'Serviço não criado' })
+  }
 
-    async search(req, res) {
-        return res.status(200).json({ success: false, msg: 'Serviço não criado' });
-    }
+  public async search (req: Request, res: Response): Promise<Response> {
+    return res.status(200).json({ success: false, msg: 'Serviço não criado' })
+  }
 
-    async insert(req, res) {
-        return res.status(200).json({ success: false, msg: 'Serviço não criado' });
-    }
+  public async insert (req: Request, res: Response): Promise<Response> {
+    return res.status(200).json({ success: false, msg: 'Serviço não criado' })
+  }
 
-    async update(req, res) {
-        return res.status(200).json({ success: false, msg: 'Serviço não criado' });
-    }
+  public async update (req: Request, res: Response): Promise<Response> {
+    return res.status(200).json({ success: false, msg: 'Serviço não criado' })
+  }
 
-    async delete(req, res) {
-        return res.status(200).json({ success: false, msg: 'Serviço não criado' });
-    }
+  public async delete (req: Request, res: Response): Promise<Response> {
+    return res.status(200).json({ success: false, msg: 'Serviço não criado' })
+  }
 }
 
-module.exports = new ProdutoController();
+module.exports = new ProdutoController()

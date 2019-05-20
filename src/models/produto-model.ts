@@ -1,21 +1,20 @@
-import mongoose from 'mongoose'
-import { alreadyInsert } from './../util/messages'
+import { Schema, model, Document } from 'mongoose'
 
-const Produto = new mongoose.Schema({
-  nome: { type: String,
-    required: true,
-    validate: [{
-      validator: async (cpf): Promise<boolean> => {
-        let search = await mongoose.model('Produto').find({ cpf: cpf })
+interface ProdutoInterface extends Document{
+  nome?: string
+  valorVenda?: number
+  marca?: string
+  unidadeMedida?: string
+  qtd?: number
+  descricao?: string
+  qtdMinima?: number
+  status?: boolean
+}
 
-        if (search.length > 0) {
-          return false
-        }
-      },
-      msg: alreadyInsert('Nome')
-    }] },
+const Produto = new Schema({
+  nome: { type: String, required: true },
   valorVenda: { type: Number, required: true },
-  marca: { type: mongoose.Schema.Types.ObjectId },
+  marca: { type: Schema.Types.ObjectId },
   unidadeMedida: { type: String, required: true },
   qtd: { type: Number, required: true },
   descricao: { type: String },
@@ -25,4 +24,4 @@ const Produto = new mongoose.Schema({
   timestamps: true
 })
 
-export default mongoose.model('Produto', Produto)
+export default model<ProdutoInterface>('Produto', Produto)

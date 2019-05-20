@@ -1,12 +1,16 @@
-import mongoose from 'mongoose'
+import { Schema, model, Document } from 'mongoose'
 
-const Permissao = new mongoose.Schema({
+interface PermissaoInterface extends Document{
+  nome?: string
+}
+
+const Permissao = new Schema({
   nome: { type: String,
     required: true,
     lowercase: true,
     validate: [{
       validator: async (nome): Promise<boolean> => {
-        let search = await mongoose.model('Permissao').find({ nome: nome.toLowerCase() })
+        let search = await model('Permissao').find({ nome: nome.toLowerCase() })
 
         if (search.length > 0) {
           return false
@@ -17,4 +21,4 @@ const Permissao = new mongoose.Schema({
 }, {
   timestamps: false
 })
-export default mongoose.model('Permissao', Permissao)
+export default model<PermissaoInterface>('Permissao', Permissao)

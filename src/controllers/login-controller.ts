@@ -1,11 +1,12 @@
+import { Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 
-import Funcionario from '../models/Funcionario-model'
+import Funcionario from '../models/funcionario-model'
 import variables from './../config/variables'
 import util from './../util/util'
 
 class LoginController {
-  public async doLogin (req, res): Promise<void> {
+  public async doLogin (req: Request, res: Response): Promise<Response> {
     let funcionario = await Funcionario.findOne({
       usuario: req.body.usuario,
       senha: util.encode(req.body.senha)

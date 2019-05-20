@@ -1,15 +1,16 @@
+import { Request, Response } from 'express'
 // import Cliente from './../models/Cliente-model'
 
 class ClienteController {
-  public async searchById (req, res): Promise<void> {
+  public async searchById (req: Request, res: Response): Promise<Response> {
     return res.status(200).json({ success: false, msg: 'Serviço não criado' })
   }
 
-  public async search (req, res): Promise<void> {
+  public async search (req: Request, res: Response): Promise<Response> {
     return res.status(200).json({ success: false, msg: 'Serviço não criado' })
   }
 
-  public async insert (req, res): Promise<void> {
+  public async insert (req: Request, res: Response): Promise<Response> {
     // let response = {
     //   success: true,
     //   msg: []
@@ -33,11 +34,11 @@ class ClienteController {
     // }
   }
 
-  public async update (req, res): Promise<void> {
+  public async update (req: Request, res: Response): Promise<Response> {
     return res.status(200).json({ success: false, msg: 'Serviço não criado' })
   }
 
-  public async delete (req, res): Promise<void> {
+  public async delete (req: Request, res: Response): Promise<Response> {
     return res.status(200).json({ success: false, msg: 'Serviço não criado' })
   }
 }

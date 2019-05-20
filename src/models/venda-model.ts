@@ -1,9 +1,14 @@
-import mongoose from 'mongoose'
+import { Schema, model, Document } from 'mongoose'
 
-const Venda = new mongoose.Schema({
-  idFuncionario: { type: mongoose.Schema.Types.ObjectId, red: 'Funcionario', required: true },
+interface VendaInterface extends Document{
+  funcionario?: string
+  produtos?: ProdutoVenda[]
+}
+
+const Venda = new Schema({
+  funcionario: { type: Schema.Types.ObjectId, red: 'Funcionario', required: true },
   produtos: [{
-    idProduto: { type: mongoose.Schema.Types.ObjectId, red: 'Venda' },
+    idProduto: { type: Schema.Types.ObjectId, red: 'Venda' },
     qtd: Number,
     valor: Number
   }]
@@ -11,4 +16,10 @@ const Venda = new mongoose.Schema({
   timestamps: true
 })
 
-export default mongoose.model('Venda', Venda)
+export default model<VendaInterface>('Venda', Venda)
+
+export class ProdutoVenda {
+  public id: string
+  public qtd: number
+  public valor: number
+}
