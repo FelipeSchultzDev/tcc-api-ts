@@ -1,0 +1,41 @@
+Clientes
+    - cadastrar: post
+    - listar: get
+    - listar desabilitados: get
+    - habilitar: put
+    - remover: delete
+    - desativar: put
+    - editar: put
+
+Funcionarios
+    - cadastrar: post
+    - listar: get
+    - listar desabilitados: get
+    - habilitar: put
+    - remover: delete
+    - desativar: put
+    - editar: put
+
+Marcas
+    - cadastrar: post
+    - listar: get
+    - listar desabilitados: get
+    - habilitar: put
+    - remover: delete
+    - desativar: put
+    - editar: put
+
+Produtos
+    - cadastrar: post
+    - listar: get
+    - listar desabilitados: get
+    - habilitar: put
+    - remover: delete
+    - desativar: put
+    - editar: put
+
+Movimentação
+    - listar: get
+
+Terminal
+    - vender: post

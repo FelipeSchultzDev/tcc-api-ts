@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import md5 from 'md5'
 
 import { required, invalid } from './messages'
+import { FieldOptions, FieldVerified } from './../class/class'
 
 class Util {
   public emailValidation (email: string): boolean {
@@ -88,50 +89,50 @@ class Util {
     return false
   }
 
-  public verifyFields (fields: [string], data: DataOptions, options: FieldOptions): object {
+  public verifyFields (data, options: FieldOptions): FieldVerified {
     const msg = []
 
-    if (fields.includes('id')) {
+    if (data._id || options._id) {
       if (!data._id) msg.push(required('_id'))
       else if (!this.idValidation(data._id)) msg.push(invalid('ID'))
     }
     // -----------------------------------------------------
-    if (fields.includes('nome')) {
+    if (data.nome || options.nome) {
       if (!data.nome || !(data.nome.length > 0)) msg.push(require('nome'))
     }
     // -----------------------------------------------------
-    if (fields.includes('email')) {
+    if (data.email || options.email) {
       if (!data.email || !(data.email.length > 0)) msg.push(required('e-mail'))
       else if (!this.emailValidation(data.email)) msg.push(invalid('E-mail'))
     }
     // -----------------------------------------------------
-    if (fields.includes('cpf')) {
+    if (data.cpf || options.cpf) {
       if (!data.cpf || !(data.cpf.length > 0)) msg.push(required('cpf'))
       else if (!this.cpfValidation(data.cpf)) msg.push(invalid('Cpf'))
     }
     // -----------------------------------------------------
-    if (fields.includes('nascimento')) {
+    if (data.nascimento || options.nascimento) {
       if (!data.nascimento || !(data.nascimento.length > 0)) msg.push(required('nascimento'))
       else if (!this.dateValidation(data.nascimento)) msg.push(invalid('Data de nascimento'))
       else data.nascimento = this.dateConvert(data.nascimento)
     }
     // -----------------------------------------------------
-    if (fields.includes('celular')) {
+    if (data.celular || options.celular) {
       if (!data.celular || !(data.celular.length > 0)) msg.push(required('celular'))
       else if (!this.celValidation(data.celular)) msg.push(invalid('Celular'))
     }
     // -----------------------------------------------------
-    if (fields.includes('usuario')) {
+    if (data.usuario || options.usuario) {
       if (!data.usuario || !(data.usuario.length > 0)) msg.push(required('usuario'))
     }
     // -----------------------------------------------------
-    if (fields.includes('senha')) {
+    if (data.senha || options.senha) {
       if (!data.senha || data.senha.length === 0) msg.push(required('senha'))
       else if (data.senha.length < 6) msg.push('O campo senha deve ter pelo menos 6 caracteres')
       else data.senha = this.encode(data.senha)
     }
     // -----------------------------------------------------
-    if (fields.includes('permissao')) {
+    if (data.permissao || options.permissao) {
       if (data.permissao === '') data.permissao = null
       else if (data.permissao && !this.idValidation(data.permissao)) msg.push(invalid('Permissão'))
     }
@@ -139,20 +140,6 @@ class Util {
 
     return { msg, data }
   }
-}
-class FieldOptions {
-
-}
-class DataOptions {
-    public _id: string;
-    public nome: string;
-    public email: string;
-    public cpf: string;
-    public nascimento: string;
-    public celular: string;
-    public usuario: string;
-    public senha: string;
-    public permissao: string
 }
 
 export default new Util()

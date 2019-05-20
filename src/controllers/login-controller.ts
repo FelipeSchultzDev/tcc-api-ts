@@ -12,13 +12,13 @@ class LoginController {
       senha: util.encode(req.body.senha)
     }).populate('permissao', 'nome', 'Permissao')
 
-    if (!funcionario) {
-      return res.status(401).json({ success: false, msg: 'Usuário ou senha incorretos' })
-    }
+    console.log(funcionario)
+
+    if (!funcionario) return res.status(401).json({ success: false, msg: 'Usuário ou senha incorretos' })
 
     let user = {
-      // id: funcionario._id,
-      // permissao: funcionario.permissao.nome
+      id: funcionario._id,
+      permissao: (funcionario.permissao) ? funcionario.permissao.nome : ''
     }
 
     let token = jwt.sign({ user }, variables.Security.secretKey, {

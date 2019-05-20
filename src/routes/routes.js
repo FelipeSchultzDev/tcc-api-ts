@@ -21,44 +21,45 @@ import vendaVal from './../validations/venda-validation'
 const router = Router()
 
 // Cliente
-router.get('/consultarid', clienteVal.searchById, clientCtrl.searchById)
-router.get('/consultar', clienteVal.search, clientCtrl.search)
-router.post('/inserir', clienteVal.insert, clientCtrl.insert)
-router.put('/atualizar', clienteVal.update, clientCtrl.update)
-router.delete('/deletar', clienteVal.delete, clientCtrl.delete)
+router.get('/cliente/listar_desabilitados', clienteVal.searchById, clientCtrl.searchById)
+router.get('/cliente/listar', clienteVal.search, clientCtrl.search)
+router.post('/cliente/cadastrar', clienteVal.insert, clientCtrl.insert)
+router.put('/cliente/ativar', clienteVal.update, clientCtrl.update)
+router.put('/cliente/desativar', clienteVal.update, clientCtrl.update)
+router.put('/cliente/editar', clienteVal.update, clientCtrl.update)
+router.delete('/cliente/deletar', clienteVal.delete, clientCtrl.delete)
 
 // Funcionario
-router.get('/consultarid', funcionarioVal.searchById, funcionarioCtrl.searchById)
-router.get('/consultar', funcionarioVal.search, funcionarioCtrl.search)
-router.post('/inserir', funcionarioVal.insert, funcionarioCtrl.insert)
-router.put('/atualizar', funcionarioVal.update, funcionarioCtrl.update)
-router.delete('/deletar', funcionarioVal.delete, funcionarioCtrl.delete)
+router.get('/funcionario/listar_desabilitados', funcionarioVal.searchById, funcionarioCtrl.searchById)
+router.get('/funcionario/listar', funcionarioVal.search, funcionarioCtrl.search)
+router.post('/funcionario/cadastrar', funcionarioVal.insert, funcionarioCtrl.insert)
+router.put('/funcionario/ativar', funcionarioVal.update, funcionarioCtrl.update)
+router.put('/funcionario/desativar', funcionarioVal.update, funcionarioCtrl.update)
+router.put('/funcionario/editar', funcionarioVal.update, funcionarioCtrl.update)
+router.delete('/funcionario/deletar', funcionarioVal.delete, funcionarioCtrl.delete)
 
 // Marca
-router.get('/consultarid', marcaVal.searchById, marcaCtrl.searchById)
-router.get('/consultar', marcaVal.search, marcaCtrl.search)
-router.post('/inserir', marcaVal.insert, marcaCtrl.insert)
-router.put('/atualizar', marcaVal.update, marcaCtrl.update)
-router.delete('/deletar', marcaVal.delete, marcaCtrl.delete)
-
-// Movimento
-router.get('/consultarid', movimentoCtrl.searchById, movimentoVal.searchById)
-router.get('/consultar', movimentoCtrl.search, movimentoVal.search)
-router.post('/inserir', movimentoCtrl.insert, movimentoVal.insert)
-router.put('/atualizar', movimentoCtrl.update, movimentoVal.update)
-router.delete('/deletar', movimentoCtrl.delete, movimentoVal.delete)
+router.get('/marca/listar_desabilitados', marcaVal.searchById, marcaCtrl.searchById)
+router.get('/marca/listar', marcaVal.search, marcaCtrl.search)
+router.post('/marca/cadastrar', marcaVal.insert, marcaCtrl.insert)
+router.put('/marca/ativar', marcaVal.update, marcaCtrl.update)
+router.put('/marca/desativar', marcaVal.update, marcaCtrl.update)
+router.put('/marca/editar', marcaVal.update, marcaCtrl.update)
+router.delete('/marca/deletar', marcaVal.delete, marcaCtrl.delete)
 
 // Produto
-router.get('/consultarid', produtoVal.searchById, produtoCtrl.searchById)
-router.get('/consultar', produtoVal.search, produtoCtrl.search)
-router.post('/inserir', produtoVal.insert, produtoCtrl.insert)
-router.put('/atualizar', produtoVal.update, produtoCtrl.update)
-router.delete('/deletar', produtoVal.delete, produtoCtrl.delete)
+router.get('/produto/listar_desabilitados', produtoVal.searchById, produtoCtrl.searchById)
+router.get('/produto/listar', produtoVal.search, produtoCtrl.search)
+router.post('/produto/cadastrar', produtoVal.insert, produtoCtrl.insert)
+router.put('/produto/ativar', produtoVal.update, produtoCtrl.update)
+router.put('/produto/desativar', produtoVal.update, produtoCtrl.update)
+router.put('/produto/editar', produtoVal.update, produtoCtrl.update)
+router.delete('/produto/deletar', produtoVal.delete, produtoCtrl.delete)
 
-router.get('/consultarid', vendaVal.searchById, vendaCtrl.searchById)
-router.get('/consultar', vendaVal.search, vendaCtrl.search)
-router.post('/inserir', vendaVal.insert, vendaCtrl.insert)
-router.put('/atualizar', vendaVal.update, vendaCtrl.update)
-router.delete('/deletar', vendaVal.delete, vendaCtrl.delete)
+// Movimento
+router.get('/movimento/', movimentoCtrl.searchById, movimentoVal.searchById)
+
+// Terminal de vendas
+router.post('/venda/vender', vendaVal.insert, vendaCtrl.insert)
 
 export default router

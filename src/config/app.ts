@@ -16,8 +16,8 @@ class App {
 
     public constructor () {
       this.express = express()
-      this.middlewares()
       this.database()
+      this.middlewares()
       this.routes()
     }
 
@@ -44,8 +44,7 @@ class App {
 
     private routes (): void {
       this.express.use('/login', loginRoutes)
-      this.express.use(jwt)
-      this.express.use('/', routes)
+      this.express.use('/api', jwt, routes)
     }
 }
 

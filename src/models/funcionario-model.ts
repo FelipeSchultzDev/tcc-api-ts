@@ -8,7 +8,10 @@ interface FuncionarioInterface extends Document{
   celular?: string
   usuario?: string
   senha?: string
-  permissao?: string
+  permissao?: {
+    _id: string,
+    nome: string
+  }
   status?: boolean
 }
 
