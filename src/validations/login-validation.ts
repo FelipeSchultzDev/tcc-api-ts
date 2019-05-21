@@ -10,7 +10,7 @@ class LoginValidation {
       senha: true
     }
 
-    const { msg, data } = util.verifyFields(req.body, options)
+    const { msg, data } = await util.verifyFields(req.body, options)
 
     if (msg.length > 0) return res.status(400).json({ success: false, msg: msg })
 

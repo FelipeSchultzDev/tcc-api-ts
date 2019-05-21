@@ -23,7 +23,7 @@ const Funcionario = new Schema({
   celular: { type: String, required: true },
   usuario: { type: String, required: true, lowercase: true, index: true },
   senha: { type: String, required: true, index: true },
-  permissao: { type: Schema.Types.ObjectId },
+  permissao: { type: Schema.Types.ObjectId, red: 'Permissao' },
   status: { type: Boolean, required: true, default: true }
 }, {
   timestamps: false

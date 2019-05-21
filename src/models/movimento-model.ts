@@ -8,7 +8,7 @@ interface MovimentoInterface extends Document{
 }
 
 const Movimento = new Schema({
-  produto: { type: Schema.Types.ObjectId, required: true },
+  produto: { type: Schema.Types.ObjectId, red: 'Produto', required: true },
   tipo: { type: String, required: true },
   qtd: { type: Number, required: true },
   valor: { type: Number, required: true }

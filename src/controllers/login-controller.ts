@@ -12,8 +12,6 @@ class LoginController {
       senha: util.encode(req.body.senha)
     }).populate('permissao', 'nome', 'Permissao')
 
-    console.log(funcionario, util.encode(req.body.senha))
-
     if (!funcionario) return res.status(401).json({ success: false, msg: 'Usuário ou senha incorretos' })
 
     let user = {

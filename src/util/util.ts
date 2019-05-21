@@ -150,6 +150,7 @@ class Util {
       else if (data.permissao && !this.idValidation(data.permissao, options.model)) msg.push(invalid('Permissão'))
     }
     // -----------------------------------------------------
+    // -----------------------------------------------------
 
     return { msg, data }
   }
