@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import md5 from 'md5'
 
 import { required, invalid } from './messages'
-import { FieldOptions, FieldVerified } from './../class/class'
+import { FieldOptions, FieldVerified, AuthOptions } from './../class/class'
 
 class Util {
   public emailValidation (email: string): boolean {
@@ -71,8 +71,13 @@ class Util {
     return `${splitDate[2]}-${splitDate[1]}-${splitDate[0]}`
   }
 
-  public idValidation (id): boolean {
-    return mongoose.Types.ObjectId.isValid(id)
+  public async idValidation (id, model: string): Promise<IdOptions> {
+    if (!mongoose.Types.ObjectId.isValid(id)) return { result: false, m: invalid('ID') }
+
+    const validation = await mongoose.model(model).findOne({ _id: id })
+
+    if (validation) return { result: true, m: '' }
+    else return { result: false, m: 'ID inexistente' }
   }
 
   public encode (password: string): string {
@@ -80,25 +85,33 @@ class Util {
     return teste
   }
 
-  public verifyAuth (permissao, permissoes): boolean {
-    for (let i = 0; i < permissoes.length; i++) {
-      if (permissoes[i] === permissao) {
-        return true
-      }
+  public verifyAuth (permissao, auth: AuthOptions): boolean {
+    if (auth.admin) {
+      if (permissao === 'admin') return true
+    }
+    if (auth.funcionario) {
+      if (permissao === 'funcionario') return true
+    }
+    if (auth.financeiro) {
+      if (permissao === 'financeiro') return true
     }
     return false
   }
 
-  public verifyFields (data, options: FieldOptions): FieldVerified {
+  public async verifyFields (data, options: FieldOptions): Promise<FieldVerified> {
     const msg = []
 
     if (data._id || options._id) {
-      if (!data._id) msg.push(required('_id'))
-      else if (!this.idValidation(data._id)) msg.push(invalid('ID'))
+      if (!data._id) {
+        msg.push(required('_id'))
+      } else {
+        const { result, m } = await this.idValidation(data._id, options.model)
+        if (!result) msg.push(m)
+      }
     }
     // -----------------------------------------------------
     if (data.nome || options.nome) {
-      if (!data.nome || !(data.nome.length > 0)) msg.push(require('nome'))
+      if (!data.nome || !(data.nome.length > 0)) msg.push(required('nome'))
     }
     // -----------------------------------------------------
     if (data.email || options.email) {
@@ -134,12 +147,16 @@ class Util {
     // -----------------------------------------------------
     if (data.permissao || options.permissao) {
       if (data.permissao === '') data.permissao = null
-      else if (data.permissao && !this.idValidation(data.permissao)) msg.push(invalid('Permissão'))
+      else if (data.permissao && !this.idValidation(data.permissao, options.model)) msg.push(invalid('Permissão'))
     }
     // -----------------------------------------------------
 
     return { msg, data }
   }
+}
+export class IdOptions {
+  public result: boolean
+  public m: string
 }
 
 export default new Util()

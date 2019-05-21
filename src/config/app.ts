@@ -44,7 +44,7 @@ class App {
 
     private routes (): void {
       this.express.use('/login', loginRoutes)
-      this.express.use('/api', jwt, routes)
+      this.express.use('/', jwt, routes)
     }
 }
 

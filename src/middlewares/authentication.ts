@@ -1,14 +1,16 @@
+import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
 
 import { tokenInvalid, tokenNull } from './../util/messages'
 import variables from './../config/variables'
 
-const token = async (req, res, next): Promise<void> => {
+const token = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
   let token = req.body.token || req.query.query || req.headers['x-access-token']
 
   if (token === 'dev') {
     res.locals.user = { permissao: 'admin' }
-    return next()
+    next()
+    return
   }
 
   if (token) {
@@ -20,7 +22,7 @@ const token = async (req, res, next): Promise<void> => {
       return res.status(401).send({ msg: tokenInvalid() })
     }
   } else {
-    res.status(401).send({ msg: tokenNull() })
+    return res.status(401).send({ msg: tokenNull() })
   }
 }
 

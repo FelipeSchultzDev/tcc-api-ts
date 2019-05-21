@@ -8,6 +8,7 @@ export class FieldOptions {
     public usuario?: boolean;
     public senha?: boolean;
     public permissao?: boolean
+    public model: string
 }
 export class Data {
     public _id?: string;
@@ -24,4 +25,10 @@ export class Data {
 export class FieldVerified {
     public msg: string[]
     public data: Response
+}
+
+export class AuthOptions {
+    public admin?: boolean
+    public funcionario?: boolean
+    public financeiro?: boolean
 }

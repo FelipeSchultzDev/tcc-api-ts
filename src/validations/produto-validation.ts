@@ -1,64 +1,78 @@
 import { Request, Response, NextFunction } from 'express'
 
 import util from './../util/util'
+import { FieldOptions } from '../class/class'
 
 class ProdutoValidation {
-  public async searchById (req: Request, res: Response, next: NextFunction): Promise<Response> {
-    const authList = ['admin', 'financeiro']
-    if (!util.verifyAuth(res.locals.user.permissao, authList)) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
-
-    let fields = ['id']
-    let result = util.verifyFields(fields, req.body)
-    let msg = result.msg
-    req.body = result.data
-
-    if (msg.length > 0) return res.status(400).json({ success: false, msg: msg })
-    else next()
+  public async listar (req: Request, res: Response, next: NextFunction): Promise<Response> {
+    if (!util.verifyAuth(res.locals.user.permissao, { admin: true, financeiro: true })) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
+    next()
   }
 
-  public async search (req: Request, res: Response, next: NextFunction): Promise<Response> {
-    const authList = ['admin', 'financeiro']
-    if (!util.verifyAuth(res.locals.user.permissao, authList)) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
-    else next()
+  public async cadastrar (req: Request, res: Response, next: NextFunction): Promise<Response> {
+    if (!util.verifyAuth(res.locals.user.permissao, { admin: true })) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
+
+    const options: FieldOptions = {
+      nome: true,
+      email: true,
+      cpf: true,
+      nascimento: true,
+      celular: true
+    }
+
+    let { msg, data } = util.verifyFields(req.body, options)
+    req.body = data
+
+    if (!(msg.length > 0)) next()
+    return res.status(400).json({ success: false, msg: msg })
   }
 
-  public async insert (req: Request, res: Response, next: NextFunction): Promise<Response> {
-    const authList = ['admin']
-    if (!util.verifyAuth(res.locals.user.permissao, authList)) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
+  public async editar (req: Request, res: Response, next: NextFunction): Promise<Response> {
+    if (!util.verifyAuth(res.locals.user.permissao, { admin: true })) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
 
-    let fields = ['nome', 'email', 'cpf', 'nascimento', 'celular']
-    let result = util.verifyFields(fields, req.body)
-    let msg = result.msg
-    req.body = result.data
+    const options: FieldOptions = {
+      _id: true,
+      nome: true,
+      email: true,
+      cpf: true,
+      nascimento: true,
+      celular: true
+    }
+    let { msg, data } = util.verifyFields(req.body, options)
+    req.body = data
 
-    if (!msg.length > 0) return next()
-    else return res.status(400).json({ success: false, msg: msg })
+    if (!(msg.length > 0)) next()
+    return res.status(400).json({ success: false, msg: msg })
   }
 
-  public async update (req: Request, res: Response, next: NextFunction): Promise<Response> {
-    const authList = ['admin']
-    if (!util.verifyAuth(res.locals.user.permissao, authList)) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
+  public async desativar (req: Request, res: Response, next: NextFunction): Promise<Response> {
+    if (!util.verifyAuth(res.locals.user.permissao, { admin: true })) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
 
-    let fields = ['id', 'nome', 'email', 'cpf', 'nascimento', 'celular']
-    let result = util.verifyFields(fields, req.body)
-    let msg = result.msg
-    req.body = result.data
+    let { msg, data } = util.verifyFields(req.body, { _id: true })
+    req.body = data
 
-    if (msg.length > 0) return res.status(400).json({ success: false, msg: msg })
-    else next()
+    if (!(msg.length > 0)) next()
+    return res.status(400).json({ success: false, msg: msg })
   }
 
-  public async delete (req: Request, res: Response, next: NextFunction): Promise<Response> {
-    const authList = ['admin', 'financeiro']
-    if (!util.verifyAuth(res.locals.user.permissao, authList)) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
+  public async ativar (req: Request, res: Response, next: NextFunction): Promise<Response> {
+    if (!util.verifyAuth(res.locals.user.permissao, { admin: true })) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
 
-    let fields = ['id']
-    let result = util.verifyFields(fields, req.body)
-    let msg = result.msg
-    req.body = result.data
+    let { msg, data } = util.verifyFields(req.body, { _id: true })
+    req.body = data
 
-    if (msg.length > 0) return res.status(400).json({ success: false, msg: msg })
-    else next()
+    if (!(msg.length > 0)) next()
+    return res.status(400).json({ success: false, msg: msg })
+  }
+
+  public async deletar (req: Request, res: Response, next: NextFunction): Promise<Response> {
+    if (!util.verifyAuth(res.locals.user.permissao, { admin: true })) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
+
+    let { msg, data } = util.verifyFields(req.body, { _id: true })
+    req.body = data
+
+    if (!(msg.length > 0)) next()
+    return res.status(400).json({ success: false, msg: msg })
   }
 }
 
