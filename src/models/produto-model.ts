@@ -14,7 +14,7 @@ interface ProdutoInterface extends Document{
 const Produto = new Schema({
   nome: { type: String, required: true },
   valorVenda: { type: Number, required: true },
-  marca: { type: Schema.Types.ObjectId },
+  marca: { type: Schema.Types.ObjectId, red: 'Marca' },
   unidadeMedida: { type: String, required: true },
   qtd: { type: Number, required: true },
   descricao: { type: String },

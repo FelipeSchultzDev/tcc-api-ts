@@ -7,8 +7,14 @@ export class FieldOptions {
     public celular?: boolean;
     public usuario?: boolean;
     public senha?: boolean;
-    public permissao?: boolean
-    public model: string
+    public permissao?: boolean;
+    public model: string;
+    public valorVenda?: boolean
+    public marca?: boolean
+    public unidadeMedida?: boolean
+    public qtd?: boolean
+    public qtdMinima?: boolean
+    public descricao?: boolean
 }
 export class Data {
     public _id?: string;
@@ -19,7 +25,7 @@ export class Data {
     public celular?: string;
     public usuario?: string;
     public senha?: string;
-    public permissao?: string
+    public permissao?: string;
 }
 
 export class FieldVerified {
