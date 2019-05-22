@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import md5 from 'md5'
 
 import { required, invalid } from './messages'
-import { FieldOptions, FieldVerified, AuthOptions } from './../class/class'
+import { FieldOptions, FieldVerified, Data } from './../class/class'
 
 class Util {
   public emailValidation (email: string): boolean {
@@ -85,20 +85,8 @@ class Util {
     return teste
   }
 
-  public verifyAuth (permissao, auth: AuthOptions): boolean {
-    if (auth.admin) {
-      if (permissao === 'admin') return true
-    }
-    if (auth.funcionario) {
-      if (permissao === 'funcionario') return true
-    }
-    if (auth.financeiro) {
-      if (permissao === 'financeiro') return true
-    }
-    return false
-  }
-
-  public async verifyFields (data, options: FieldOptions): Promise<FieldVerified> {
+  public async verifyFields (req, options: FieldOptions): Promise<FieldVerified> {
+    const data: Data = req
     const msg = []
 
     if (data._id || options._id) {
@@ -145,11 +133,38 @@ class Util {
       else data.senha = this.encode(data.senha)
     }
     // -----------------------------------------------------
-    if (data.permissao || options.permissao) {
-      if (data.permissao === '') data.permissao = null
-      else if (data.permissao && !this.idValidation(data.permissao, options.model)) msg.push(invalid('Permissão'))
+    if (data.valorVenda || options.valorVenda) {
+      if (!data.valorVenda && data.valorVenda !== 0) msg.push(required('ValorVenda'))
+      else if (data.valorVenda <= 0) msg.push('O valor de venda não pode ser menor ou igual a zero')
     }
     // -----------------------------------------------------
+    if (data.marca || options.marca) {
+      if (!data.marca) {
+        msg.push(required('Marca'))
+      } else {
+        const { result, m } = await this.idValidation(data.marca, 'Marca')
+        if (!result) msg.push(m)
+      }
+    }
+    // -----------------------------------------------------
+    if (data.unidadeMedida || options.unidadeMedida) {
+      if (!data.unidadeMedida) {
+        msg.push(required('unidadeMedida'))
+      } else {
+        const { result, m } = await this.idValidation(data.unidadeMedida, 'tipos')
+        if (!result) msg.push(m)
+      }
+    }
+    // -----------------------------------------------------
+    if (data.qtd || options.qtd) {}
+    // -----------------------------------------------------
+    if (data.qtdMinima || options.qtdMinima) {}
+    // -----------------------------------------------------
+    if (data.descricao || options.descricao) {}
+    // -----------------------------------------------------
+    if (data.listaProdutos || options.listaProdutos) {}
+    // -----------------------------------------------------
+    if (data.dataVenda || options.dataVenda) {}
     // -----------------------------------------------------
 
     return { msg, data }

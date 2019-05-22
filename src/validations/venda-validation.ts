@@ -1,12 +1,16 @@
 import { Request, Response, NextFunction } from 'express'
 
 import util from './../util/util'
+import { FieldOptions } from '../class/class'
 
 class VendaValidation {
   public async vender (req: Request, res: Response, next: NextFunction): Promise<Response> {
-    if (!util.verifyAuth(res.locals.user.permissao, { admin: true, funcionario: true })) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
+    const options: FieldOptions = {
+      listaProdutos: true,
+      dataVenda: true
+    }
 
-    let { msg, data } = await util.verifyFields(req.body, { _id: true })
+    let { msg, data } = await util.verifyFields(req.body, options)
     req.body = data
 
     if (!(msg.length > 0)) next()

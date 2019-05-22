@@ -25,6 +25,4 @@ export function disabled (val: string): string { return `${val} desativado(a)` }
 
 export function cantDelete (val: string): string { return `Este(a) ${val.toLowerCase()} não pode ser removido(a), pois está vinculado(a) a outro item` }
 
-export function noAuth (): string { return `Sem autorização para utilizar este recurso` }
-
 export function fieldID (): string { return `` }
