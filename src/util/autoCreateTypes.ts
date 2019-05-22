@@ -1,14 +1,16 @@
-import movimentoTypes from './../models/movimentoTypes-model'
+import Tipos from './../models/tipo-model'
 import ColorCMD from './ColorCMD'
 
 let autoCreatePermission = async (): Promise<void> => {
   const tipos = [
-    { tipo: 'Entrada' },
-    { tipo: 'Venda' },
-    { tipo: 'Retirada' }
+    { nome: 'Entrada', tag: 'movimento' },
+    { nome: 'Venda', tag: 'movimento' },
+    { nome: 'Retirada', tag: 'movimento' },
+    { nome: 'UN', tag: 'unidade' },
+    { nome: 'PCT', tag: 'venda' }
   ]
 
-  await movimentoTypes.create(tipos)
+  await Tipos.create(tipos)
     .then((): void => {
       ColorCMD('blue', '', '[mongoose] Os tipos padrões foram criada')
     })

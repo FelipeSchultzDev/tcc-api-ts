@@ -1,4 +1,5 @@
 import { Schema, model, Document } from 'mongoose'
+import { Compras } from '../class/class'
 
 interface ClienteInterface extends Document{
   nome?: string
@@ -21,7 +22,3 @@ const Cliente = new Schema({
 })
 
 export default model<ClienteInterface>('Cliente', Cliente)
-
-export class Compras {
-  public id: string
-}

@@ -4,23 +4,17 @@ import { Request, Response, NextFunction } from 'express'
 import util from './../util/util'
 
 class ClienteValidation {
-  public async listar (req: Request, res: Response, next: NextFunction): Promise<Response> {
-    if (!util.verifyAuth(res.locals.user.permissao, { admin: true, financeiro: true })) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
-    next()
-  }
-
   public async cadastrar (req: Request, res: Response, next: NextFunction): Promise<Response> {
-    if (!util.verifyAuth(res.locals.user.permissao, { admin: true })) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
-
     const options: FieldOptions = {
       nome: true,
       email: true,
       cpf: true,
       nascimento: true,
-      celular: true
+      celular: true,
+      model: 'Cliente'
     }
 
-    let { msg, data } = util.verifyFields(req.body, options)
+    let { msg, data } = await util.verifyFields(req.body, options)
     req.body = data
 
     if (!(msg.length > 0)) next()
@@ -28,17 +22,16 @@ class ClienteValidation {
   }
 
   public async editar (req: Request, res: Response, next: NextFunction): Promise<Response> {
-    if (!util.verifyAuth(res.locals.user.permissao, { admin: true })) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
-
     const options: FieldOptions = {
       _id: true,
       nome: true,
       email: true,
       cpf: true,
       nascimento: true,
-      celular: true
+      celular: true,
+      model: 'Cliente'
     }
-    let { msg, data } = util.verifyFields(req.body, options)
+    let { msg, data } = await util.verifyFields(req.body, options)
     req.body = data
 
     if (!(msg.length > 0)) next()
@@ -46,9 +39,7 @@ class ClienteValidation {
   }
 
   public async desativar (req: Request, res: Response, next: NextFunction): Promise<Response> {
-    if (!util.verifyAuth(res.locals.user.permissao, { admin: true })) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
-
-    let { msg, data } = util.verifyFields(req.body, { _id: true })
+    let { msg, data } = await util.verifyFields(req.body, { _id: true, model: 'Cliente' })
     req.body = data
 
     if (!(msg.length > 0)) next()
@@ -56,9 +47,7 @@ class ClienteValidation {
   }
 
   public async ativar (req: Request, res: Response, next: NextFunction): Promise<Response> {
-    if (!util.verifyAuth(res.locals.user.permissao, { admin: true })) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
-
-    let { msg, data } = util.verifyFields(req.body, { _id: true })
+    let { msg, data } = await util.verifyFields(req.body, { _id: true, model: 'Cliente' })
     req.body = data
 
     if (!(msg.length > 0)) next()
@@ -66,9 +55,7 @@ class ClienteValidation {
   }
 
   public async deletar (req: Request, res: Response, next: NextFunction): Promise<Response> {
-    if (!util.verifyAuth(res.locals.user.permissao, { admin: true })) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
-
-    let { msg, data } = util.verifyFields(req.body, { _id: true })
+    let { msg, data } = await util.verifyFields(req.body, { _id: true, model: 'Cliente' })
     req.body = data
 
     if (!(msg.length > 0)) next()

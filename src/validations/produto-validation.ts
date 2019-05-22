@@ -4,14 +4,7 @@ import util from './../util/util'
 import { FieldOptions } from '../class/class'
 
 class ProdutoValidation {
-  public async listar (req: Request, res: Response, next: NextFunction): Promise<Response> {
-    if (util.verifyAuth(res.locals.user.permissao, { admin: true, financeiro: true })) next()
-    else return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
-  }
-
   public async cadastrar (req: Request, res: Response, next: NextFunction): Promise<Response> {
-    if (!util.verifyAuth(res.locals.user.permissao, { admin: true })) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
-
     const options: FieldOptions = {
       nome: true,
       valorVenda: true,
@@ -22,6 +15,7 @@ class ProdutoValidation {
       qtdMinima: true,
       model: 'Produto'
     }
+
     const { msg, data } = await util.verifyFields(req.body, options)
     req.body = data
 
@@ -30,8 +24,6 @@ class ProdutoValidation {
   }
 
   public async editar (req: Request, res: Response, next: NextFunction): Promise<Response> {
-    if (!util.verifyAuth(res.locals.user.permissao, { admin: true })) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
-
     const options: FieldOptions = {
       _id: true,
       nome: true,
@@ -51,13 +43,7 @@ class ProdutoValidation {
   }
 
   public async desativar (req: Request, res: Response, next: NextFunction): Promise<Response> {
-    if (!util.verifyAuth(res.locals.user.permissao, { admin: true })) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
-
-    const options: FieldOptions = {
-      _id: true,
-      model: 'Produto'
-    }
-    const { msg, data } = await util.verifyFields(req.body, options)
+    const { msg, data } = await util.verifyFields(req.body, { _id: true, model: 'Produto' })
     req.body = data
 
     if (!(msg.length > 0)) next()
@@ -65,13 +51,7 @@ class ProdutoValidation {
   }
 
   public async ativar (req: Request, res: Response, next: NextFunction): Promise<Response> {
-    if (!util.verifyAuth(res.locals.user.permissao, { admin: true })) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
-
-    const options: FieldOptions = {
-      _id: true,
-      model: 'Produto'
-    }
-    const { msg, data } = await util.verifyFields(req.body, options)
+    const { msg, data } = await util.verifyFields(req.body, { _id: true, model: 'Produto' })
     req.body = data
 
     if (!(msg.length > 0)) next()
@@ -79,13 +59,7 @@ class ProdutoValidation {
   }
 
   public async deletar (req: Request, res: Response, next: NextFunction): Promise<Response> {
-    if (!util.verifyAuth(res.locals.user.permissao, { admin: true })) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
-
-    const options: FieldOptions = {
-      _id: true,
-      model: 'Produto'
-    }
-    const { msg, data } = await util.verifyFields(req.body, options)
+    const { msg, data } = await util.verifyFields(req.body, { _id: true, model: 'Produto' })
     req.body = data
 
     if (!(msg.length > 0)) next()
@@ -93,4 +67,4 @@ class ProdutoValidation {
   }
 }
 
-module.exports = new ProdutoValidation()
+export default new ProdutoValidation()

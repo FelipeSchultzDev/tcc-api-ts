@@ -1,40 +1,55 @@
 export class FieldOptions {
-    public _id?: boolean;
-    public nome?: boolean;
-    public email?: boolean;
-    public cpf?: boolean;
-    public nascimento?: boolean;
-    public celular?: boolean;
-    public usuario?: boolean;
-    public senha?: boolean;
-    public permissao?: boolean;
-    public model: string;
+    public _id?: boolean
+    public nome?: boolean
+    public email?: boolean
+    public cpf?: boolean
+    public nascimento?: boolean
+    public celular?: boolean
+    public usuario?: boolean
+    public senha?: boolean
     public valorVenda?: boolean
     public marca?: boolean
     public unidadeMedida?: boolean
     public qtd?: boolean
     public qtdMinima?: boolean
     public descricao?: boolean
+    public listaProdutos?: boolean
+    public dataVenda?: boolean
+
+    public model?: string;
 }
 export class Data {
-    public _id?: string;
-    public nome?: string;
-    public email?: string;
-    public cpf?: string;
-    public nascimento?: string;
-    public celular?: string;
-    public usuario?: string;
-    public senha?: string;
-    public permissao?: string;
+    public _id?: string
+    public nome?: string
+    public email?: string
+    public cpf?: string
+    public nascimento?: string
+    public celular?: string
+    public usuario?: string
+    public senha?: string
+    public valorVenda?: number
+    public marca?: string
+    public unidadeMedida?: string
+    public qtd?: number
+    public qtdMinima?: number
+    public descricao?: string
+    public listaProdutos?: []
+    public dataVenda?: string
 }
 
 export class FieldVerified {
     public msg: string[]
-    public data: Response
+    public data: Data
 }
 
-export class AuthOptions {
-    public admin?: boolean
-    public funcionario?: boolean
-    public financeiro?: boolean
+export class Compras {
+    public id: string
+    public listaProdutos: ProdutoVenda[]
+}
+
+export class ProdutoVenda {
+    public id: string
+    public qtd: number
+    public valor: number
+    public desconto: number
 }
