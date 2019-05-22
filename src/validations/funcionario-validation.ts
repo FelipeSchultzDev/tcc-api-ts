@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 
 import util from './../util/util'
 import { FieldOptions } from '../class/class'
+import { noAuth } from '../util/messages'
 
 class FuncionarioValidation {
   public async listar (req: Request, res: Response, next: NextFunction): Promise<Response> {
@@ -10,7 +11,7 @@ class FuncionarioValidation {
   }
 
   public async cadastrar (req: Request, res: Response, next: NextFunction): Promise<Response> {
-    if (!util.verifyAuth(res.locals.user.permissao, { admin: true })) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
+    if (!util.verifyAuth(res.locals.user.permissao, { admin: true })) return res.status(203).json({ success: false, msg: noAuth() })
 
     const options: FieldOptions = {
       nome: true,
@@ -19,10 +20,11 @@ class FuncionarioValidation {
       nascimento: true,
       celular: true,
       usuario: true,
-      senha: true
+      senha: true,
+      model: 'Funcionario'
     }
 
-    let { msg, data } = util.verifyFields(req.body, options)
+    let { msg, data } = await util.verifyFields(req.body, options)
     req.body = data
 
     if (!(msg.length > 0)) next()
@@ -30,7 +32,7 @@ class FuncionarioValidation {
   }
 
   public async editar (req: Request, res: Response, next: NextFunction): Promise<Response> {
-    if (!util.verifyAuth(res.locals.user.permissao, { admin: true })) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
+    if (!util.verifyAuth(res.locals.user.permissao, { admin: true })) return res.status(203).json({ success: false, msg: noAuth() })
 
     const options: FieldOptions = {
       _id: true,
@@ -40,9 +42,10 @@ class FuncionarioValidation {
       nascimento: true,
       celular: true,
       usuario: true,
-      senha: true
+      senha: true,
+      model: 'Funcionario'
     }
-    let { msg, data } = util.verifyFields(req.body, options)
+    let { msg, data } = await util.verifyFields(req.body, options)
     req.body = data
 
     if (!(msg.length > 0)) next()
@@ -50,9 +53,9 @@ class FuncionarioValidation {
   }
 
   public async desativar (req: Request, res: Response, next: NextFunction): Promise<Response> {
-    if (!util.verifyAuth(res.locals.user.permissao, { admin: true })) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
+    if (!util.verifyAuth(res.locals.user.permissao, { admin: true })) return res.status(203).json({ success: false, msg: noAuth() })
 
-    let { msg, data } = util.verifyFields(req.body, { _id: true })
+    let { msg, data } = await util.verifyFields(req.body, { _id: true, model: 'Funcionario' })
     req.body = data
 
     if (!(msg.length > 0)) next()
@@ -60,9 +63,9 @@ class FuncionarioValidation {
   }
 
   public async ativar (req: Request, res: Response, next: NextFunction): Promise<Response> {
-    if (!util.verifyAuth(res.locals.user.permissao, { admin: true })) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
+    if (!util.verifyAuth(res.locals.user.permissao, { admin: true })) return res.status(203).json({ success: false, msg: noAuth() })
 
-    let { msg, data } = util.verifyFields(req.body, { _id: true })
+    let { msg, data } = await util.verifyFields(req.body, { _id: true, model: 'Funcionario' })
     req.body = data
 
     if (!(msg.length > 0)) next()
@@ -70,9 +73,9 @@ class FuncionarioValidation {
   }
 
   public async deletar (req: Request, res: Response, next: NextFunction): Promise<Response> {
-    if (!util.verifyAuth(res.locals.user.permissao, { admin: true })) return res.status(203).json({ success: false, msg: ['Sem autorização para utilizar este recurso'] })
+    if (!util.verifyAuth(res.locals.user.permissao, { admin: true })) return res.status(203).json({ success: false, msg: noAuth() })
 
-    let { msg, data } = util.verifyFields(req.body, { _id: true })
+    let { msg, data } = await util.verifyFields(req.body, { _id: true, model: 'Funcionario' })
     req.body = data
 
     if (!(msg.length > 0)) next()
