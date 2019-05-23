@@ -1,16 +1,11 @@
-import { Schema, model, Document } from 'mongoose'
+import { Schema, model } from 'mongoose'
 
-interface MovimentoInterface extends Document{
-  produto?: string
-  tipo?: string
-  qtd?: number
-  valor?: number
-}
+import { MovimentoInterface } from './../class/interface'
 
 const Movimento = new Schema({
   produto: { type: Schema.Types.ObjectId, red: 'Produto', required: true },
-  tipo: { type: String, required: true },
-  qtd: { type: Number, required: true },
+  tipo: { type: Schema.Types.ObjectId, red: 'Tipo', required: true },
+  quantidade: { type: Number, required: true },
   valor: { type: Number, required: true }
 }, {
   timestamps: true

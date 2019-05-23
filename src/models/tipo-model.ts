@@ -1,8 +1,6 @@
-import { Schema, model, Document } from 'mongoose'
+import { Schema, model } from 'mongoose'
 
-interface TipoInterface extends Document {
-    nome?: string
-}
+import { TipoInterface } from './../class/interface'
 
 const Tipo = new Schema({
   nome: { type: String, required: true },

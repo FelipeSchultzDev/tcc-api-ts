@@ -1,9 +1,6 @@
-import { Schema, model, Document } from 'mongoose'
+import { Schema, model } from 'mongoose'
 
-interface AcessosInterface extends Document{
-  usuario?: string
-  senha?: string
-}
+import { AcessosInterface } from './../class/interface'
 
 const Acessos = new Schema({
   usuario: {
