@@ -5,9 +5,9 @@ import { ProdutoInterface } from './../class/interface'
 const Produto = new Schema({
   nome: { type: String, required: true },
   valorVenda: { type: Number, required: true },
-  marca: { type: Schema.Types.ObjectId, red: 'Marca' },
-  unidadeMedida: { type: Schema.Types.ObjectId, red: 'Tipo', required: true },
-  qtd: { type: Number, required: true },
+  marca: { type: Schema.Types.ObjectId, ref: 'Marca' },
+  unidadeMedida: { type: Schema.Types.ObjectId, ref: 'Tipo', required: true },
+  quantidade: { type: Number, required: true },
   descricao: { type: String },
   qtdMinima: { type: Number, required: true },
   status: { type: Boolean, required: true, default: true }
