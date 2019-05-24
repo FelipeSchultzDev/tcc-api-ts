@@ -3,11 +3,11 @@ import ColorCMD from './ColorCMD'
 
 let autoCreatePermission = async (): Promise<void> => {
   const tipos = [
-    { nome: 'Entrada', tag: 'movimento' },
-    { nome: 'Venda', tag: 'movimento' },
-    { nome: 'Retirada', tag: 'movimento' },
-    { nome: 'UN', tag: 'unidade' },
-    { nome: 'PCT', tag: 'venda' }
+    { nome: 'entrada', tag: 'movimento' },
+    { nome: 'venda', tag: 'movimento' },
+    { nome: 'retirada', tag: 'movimento' },
+    { nome: 'un', tag: 'unidade' },
+    { nome: 'pct', tag: 'venda' }
   ]
 
   await Tipos.create(tipos)

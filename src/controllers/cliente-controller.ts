@@ -1,7 +1,7 @@
 import { ClienteInterface } from './../class/interface'
 import { Request, Response } from 'express'
 
-import Cliente from './../models/Cliente-model'
+import Cliente from './../models/cliente-model'
 import * as msg from './../util/messages'
 
 class ClienteController {
@@ -59,11 +59,11 @@ class ClienteController {
   }
 
   public async deletar (req: Request, res: Response): Promise<Response> {
-    const produto = await Produto.findOne({ produto: req.body._id })
+    // const produto = await Produto.findOne({ produto: req.body._id })
 
-    if (produto) return res.status(400).json({ success: false, msg: msg.cantDelete('Marca') })
+    // if (produto) return res.status(400).json({ success: false, msg: msg.cantDelete('Marca') })
 
-    Produto.findByIdAndDelete(req.body._id)
+    // Produto.findByIdAndDelete(req.body._id)
 
     return res.status(200).json({ success: true, msg: msg.successDelete('Marca') })
   }
