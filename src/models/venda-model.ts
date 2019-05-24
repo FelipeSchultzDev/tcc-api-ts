@@ -1,9 +1,6 @@
-import { Schema, model, Document } from 'mongoose'
-import { ProdutoVenda } from '../class/class'
+import { Schema, model } from 'mongoose'
 
-interface VendaInterface extends Document{
-  produtos?: ProdutoVenda[]
-}
+import { VendaInterface } from './../class/interface'
 
 const Venda = new Schema({
   produtos: [{

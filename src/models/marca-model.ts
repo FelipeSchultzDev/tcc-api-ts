@@ -1,9 +1,6 @@
-import { Schema, model, Document } from 'mongoose'
+import { Schema, model } from 'mongoose'
 
-interface MarcaInterface extends Document{
-  nome?: string
-  status?: boolean
-}
+import { MarcaInterface } from './../class/interface'
 
 const Marca = new Schema({
   nome: { type: String, required: true, lowercase: true },

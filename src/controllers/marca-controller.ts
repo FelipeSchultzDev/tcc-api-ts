@@ -1,3 +1,4 @@
+import { MarcaInterface } from './../class/interface'
 import { Request, Response } from 'express'
 
 import Marca from './../models/marca-model'
@@ -6,7 +7,7 @@ import * as msg from './../util/messages'
 
 class MarcaController {
   public async ld (req: Request, res: Response): Promise<Response> {
-    const marcas = await Marca.find({ status: false }).select('_id nome status')
+    const marcas = await Marca.find({ status: false }).select('-__v')
 
     if (marcas && marcas.length > 0) return res.status(200).json({ success: true, marcas: marcas })
     else if (marcas && !(marcas.length > 0)) return res.status(400).json({ success: false, msg: msg.notFound('Marca') })
@@ -14,7 +15,7 @@ class MarcaController {
   }
 
   public async listar (req: Request, res: Response): Promise<Response> {
-    const marcas = await Marca.find({ status: true }).select('_id nome status')
+    const marcas = await Marca.find({ status: true }).select('-__v')
 
     if (marcas && marcas.length > 0) return res.status(200).json({ success: true, marcas: marcas })
     else if (marcas && !(marcas.length > 0)) return res.status(400).json({ success: false, msg: msg.notFound('Marca') })
@@ -22,7 +23,7 @@ class MarcaController {
   }
 
   public async cadastrar (req: Request, res: Response): Promise<Response> {
-    const data = { ...req.body }
+    const data: MarcaInterface = { ...req.body }
     const validate = await Marca.findOne({ nome: data.nome })
 
     if (validate) return res.status(400).json({ success: false, msg: msg.alreadyInsert('Marca') })
@@ -50,7 +51,7 @@ class MarcaController {
   public async desativar (req: Request, res: Response): Promise<void> {
     Marca.findByIdAndUpdate(req.body._id, { status: false })
       .then((): Response => {
-        return res.status(400).json({ success: false, msg: msg.disabled('Marca') })
+        return res.status(200).json({ success: true, msg: msg.disabled('Marca') })
       })
       .catch((): Response => {
         return res.status(400).json({ success: false, msg: 'Erro ao desativar' })
@@ -60,7 +61,7 @@ class MarcaController {
   public async ativar (req: Request, res: Response): Promise<void> {
     Marca.findByIdAndUpdate(req.body._id, { status: true })
       .then((): Response => {
-        return res.status(400).json({ success: false, msg: msg.enabled('Marca') })
+        return res.status(200).json({ success: true, msg: msg.enabled('Marca') })
       })
       .catch((): Response => {
         return res.status(400).json({ success: false, msg: 'Erro ao desativar' })
@@ -74,7 +75,7 @@ class MarcaController {
 
     Produto.findByIdAndDelete(req.body._id)
 
-    return res.status(400).json({ success: false, msg: msg.successDelete('Marca') })
+    return res.status(200).json({ success: true, msg: msg.successDelete('Marca') })
   }
 }
 

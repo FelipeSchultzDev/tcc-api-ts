@@ -1,8 +1,8 @@
 import mongoose from 'mongoose'
 import md5 from 'md5'
 
-import { required, invalid } from './messages'
-import { FieldOptions, FieldVerified, Data } from './../class/class'
+import { required, invalid, moreThen, idInvalid } from './messages'
+import { FieldOptions, FieldVerified, Data, IdOptions, ProdutoVenda } from './../class/class'
 
 class Util {
   public emailValidation (email: string): boolean {
@@ -72,12 +72,12 @@ class Util {
   }
 
   public async idValidation (id, model: string): Promise<IdOptions> {
-    if (!mongoose.Types.ObjectId.isValid(id)) return { result: false, m: invalid('ID') }
+    if (!mongoose.Types.ObjectId.isValid(id)) return { result: false, m: idInvalid(model) }
 
     const validation = await mongoose.model(model).findOne({ _id: id })
 
     if (validation) return { result: true, m: '' }
-    else return { result: false, m: 'ID inexistente' }
+    else return { result: false, m: `Id do ${model} inexistente` }
   }
 
   public encode (password: string): string {
@@ -135,7 +135,7 @@ class Util {
     // -----------------------------------------------------
     if (data.valorVenda || options.valorVenda) {
       if (!data.valorVenda && data.valorVenda !== 0) msg.push(required('ValorVenda'))
-      else if (data.valorVenda <= 0) msg.push('O valor de venda não pode ser menor ou igual a zero')
+      else if (data.valorVenda <= 0) msg.push(moreThen('valorVenda', 'zero'))
     }
     // -----------------------------------------------------
     if (data.marca || options.marca) {
@@ -151,28 +151,35 @@ class Util {
       if (!data.unidadeMedida) {
         msg.push(required('unidadeMedida'))
       } else {
-        const { result, m } = await this.idValidation(data.unidadeMedida, 'tipos')
+        const { result, m } = await this.idValidation(data.unidadeMedida, 'Tipo')
         if (!result) msg.push(m)
       }
     }
     // -----------------------------------------------------
-    if (data.qtd || options.qtd) {}
+    if (data.quantidade || options.quantidade) {
+      if (!data.quantidade && data.quantidade !== 0) msg.push(required('Quantidade'))
+      else if (data.quantidade <= 0) msg.push(moreThen('quantidade', 'zero'))
+    }
     // -----------------------------------------------------
-    if (data.qtdMinima || options.qtdMinima) {}
+    if (data.qtdMinima || options.qtdMinima) {
+      if (!data.qtdMinima && data.qtdMinima !== 0) msg.push(required('qtdMinima'))
+      else if (data.qtdMinima <= 0) msg.push(moreThen('qtdMinima', 'zero'))
+    }
     // -----------------------------------------------------
-    if (data.descricao || options.descricao) {}
+    if (data.descricao || options.descricao) {
+      if (!data.descricao) msg.push(required('descricao'))
+      else if (data.descricao.length <= 0) msg.push('O campo descricao deve ter mais de uma letra')
+    }
     // -----------------------------------------------------
-    if (data.listaProdutos || options.listaProdutos) {}
-    // -----------------------------------------------------
-    if (data.dataVenda || options.dataVenda) {}
+    if (data.dataVenda || options.dataVenda) {
+      if (!data.dataVenda || !(data.dataVenda.length > 0)) msg.push(required('dataVenda'))
+      else if (!this.dateValidation(data.dataVenda)) msg.push(invalid('Data de venda'))
+      else data.dataVenda = this.dateConvert(data.dataVenda)
+    }
     // -----------------------------------------------------
 
     return { msg, data }
   }
-}
-export class IdOptions {
-  public result: boolean
-  public m: string
 }
 
 export default new Util()

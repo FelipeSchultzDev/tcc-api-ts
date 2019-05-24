@@ -1,21 +1,12 @@
-import { Schema, model, Document } from 'mongoose'
+import { Schema, model } from 'mongoose'
 
-interface ProdutoInterface extends Document{
-  nome?: string
-  valorVenda?: number
-  marca?: string
-  unidadeMedida?: string
-  qtd?: number
-  descricao?: string
-  qtdMinima?: number
-  status?: boolean
-}
+import { ProdutoInterface } from './../class/interface'
 
 const Produto = new Schema({
   nome: { type: String, required: true },
   valorVenda: { type: Number, required: true },
   marca: { type: Schema.Types.ObjectId, red: 'Marca' },
-  unidadeMedida: { type: String, required: true },
+  unidadeMedida: { type: Schema.Types.ObjectId, red: 'Tipo', required: true },
   qtd: { type: Number, required: true },
   descricao: { type: String },
   qtdMinima: { type: Number, required: true },

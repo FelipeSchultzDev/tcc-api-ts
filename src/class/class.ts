@@ -10,7 +10,7 @@ export class FieldOptions {
     public valorVenda?: boolean
     public marca?: boolean
     public unidadeMedida?: boolean
-    public qtd?: boolean
+    public quantidade?: boolean
     public qtdMinima?: boolean
     public descricao?: boolean
     public listaProdutos?: boolean
@@ -30,10 +30,10 @@ export class Data {
     public valorVenda?: number
     public marca?: string
     public unidadeMedida?: string
-    public qtd?: number
+    public quantidade?: number
     public qtdMinima?: number
     public descricao?: string
-    public listaProdutos?: []
+    public listaProdutos?: ProdutoVenda[]
     public dataVenda?: string
 }
 
@@ -45,11 +45,18 @@ export class FieldVerified {
 export class Compras {
     public id: string
     public listaProdutos: ProdutoVenda[]
+    public dataVenda: string
 }
 
 export class ProdutoVenda {
-    public id: string
+    public produto: string
     public qtd: number
     public valor: number
     public desconto: number
+}
+
+export class IdOptions {
+    public result: boolean
+    public m?: string
+    public ms?: string[]
 }

@@ -17,7 +17,7 @@ import vendaVal from './../validations/venda-validation'
 const router = Router()
 
 // Cliente
-router.get('/cliente/listar_desabilitados', clientCtrl.listar)
+router.get('/cliente/listar_desabilitados', clientCtrl.ld)
 router.get('/cliente/listar', clientCtrl.listar)
 router.post('/cliente/cadastrar', clienteVal.cadastrar, clientCtrl.cadastrar)
 router.put('/cliente/ativar', clienteVal.ativar, clientCtrl.ativar)

@@ -10,8 +10,7 @@ class ProdutoValidation {
       valorVenda: true,
       marca: true,
       unidadeMedida: true,
-      qtd: true,
-      descricao: true,
+      quantidade: true,
       qtdMinima: true,
       model: 'Produto'
     }
@@ -30,8 +29,7 @@ class ProdutoValidation {
       valorVenda: true,
       marca: true,
       unidadeMedida: true,
-      qtd: true,
-      descricao: true,
+      quantidade: true,
       qtdMinima: true,
       model: 'Produto'
     }

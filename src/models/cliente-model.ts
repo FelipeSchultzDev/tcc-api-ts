@@ -1,14 +1,6 @@
-import { Schema, model, Document } from 'mongoose'
-import { Compras } from '../class/class'
+import { Schema, model } from 'mongoose'
 
-interface ClienteInterface extends Document{
-  nome?: string
-  email?: string
-  cpf?: string
-  nascimento?: string
-  celular?: string
-  compras?: Compras[]
-}
+import { ClienteInterface } from './../class/interface'
 
 const Cliente = new Schema({
   nome: { type: String, required: true },
@@ -16,7 +8,8 @@ const Cliente = new Schema({
   cpf: { type: String, required: true },
   nascimento: { type: Date, required: true },
   celular: { type: String, required: true },
-  compras: [{ type: Schema.Types.ObjectId, red: 'Venda' }]
+  compras: [{ type: Schema.Types.ObjectId, red: 'Venda' }],
+  status: { type: Boolean, required: true, default: true }
 }, {
   timestamps: true
 })
