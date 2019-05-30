@@ -40,11 +40,11 @@ class ProdutoController {
 
     if (validate && !(`${validate._id}` === data._id)) return res.status(400).json({ success: false, msg: msg.alreadyInsert('Nome') })
 
-    const marca = await Marca.findOneAndUpdate({ _id: data._id }, data)
+    const produto = await Produto.findOneAndUpdate({ _id: data._id }, data)
 
-    if (marca) return res.status(200).json({ success: true, msg: msg.successUpdate('Marca') })
+    if (produto) return res.status(200).json({ success: true, msg: msg.successUpdate('Produto') })
 
-    return res.status(400).json({ success: false, msg: msg.errorUpdate('Marca') })
+    return res.status(400).json({ success: false, msg: msg.errorUpdate('Produto') })
   }
 
   public async desativar (req: Request, res: Response): Promise<void> {
