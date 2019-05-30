@@ -8,7 +8,6 @@ class ProdutoValidation {
     const options: FieldOptions = {
       nome: true,
       valorVenda: true,
-      marca: true,
       unidadeMedida: true,
       quantidade: true,
       qtdMinima: true,
@@ -27,7 +26,6 @@ class ProdutoValidation {
       _id: true,
       nome: true,
       valorVenda: true,
-      marca: true,
       unidadeMedida: true,
       quantidade: true,
       qtdMinima: true,

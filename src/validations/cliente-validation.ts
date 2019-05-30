@@ -7,10 +7,8 @@ class ClienteValidation {
   public async cadastrar (req: Request, res: Response, next: NextFunction): Promise<Response> {
     const options: FieldOptions = {
       nome: true,
-      email: true,
       cpf: true,
       nascimento: true,
-      celular: true,
       model: 'Cliente'
     }
 
@@ -25,10 +23,8 @@ class ClienteValidation {
     const options: FieldOptions = {
       _id: true,
       nome: true,
-      email: true,
       cpf: true,
       nascimento: true,
-      celular: true,
       model: 'Cliente'
     }
     let { msg, data } = await util.verifyFields(req.body, options)

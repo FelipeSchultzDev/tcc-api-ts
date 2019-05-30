@@ -1,4 +1,4 @@
-import Tipos from './../models/tipo-model'
+import Tipo from './../models/tipo-model'
 import ColorCMD from './ColorCMD'
 
 let autoCreatePermission = async (): Promise<void> => {
@@ -10,7 +10,7 @@ let autoCreatePermission = async (): Promise<void> => {
     { nome: 'pct', tag: 'venda' }
   ]
 
-  await Tipos.create(tipos)
+  await Tipo.create(tipos)
     .then((): void => {
       ColorCMD('blue', '', '[mongoose] Os tipos padrões foram criada')
     })
