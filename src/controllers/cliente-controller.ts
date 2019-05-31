@@ -36,12 +36,11 @@ class ClienteController {
 
     const errorList = []
 
-    for (let i = 0; i < validate.length; i++) {
-      const cliente = validate[i]
+    validate.forEach((cliente): void => {
       if (cliente.celular === celular) errorList.push(msg.alreadyInsert('Celular'))
       if (cliente.email === email) errorList.push(msg.alreadyInsert('email'))
       if (cliente.cpf === cpf) errorList.push(msg.alreadyInsert('cpf'))
-    }
+    })
 
     if (errorList.length > 0) return res.status(400).json({ success: false, msg: errorList })
 

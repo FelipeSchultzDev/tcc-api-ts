@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import md5 from 'md5'
 
 import { required, invalid, moreThen, idInvalid } from './messages'
-import { FieldOptions, FieldVerified, Data, IdOptions, ProdutoVenda } from './../class/class'
+import { FieldOptions, FieldVerified, Data, IdOptions } from './../class/class'
 
 class Util {
   public emailValidation (email: string): boolean {
@@ -85,9 +85,20 @@ class Util {
     return teste
   }
 
+  public async verifyBarcode (barcode): Promise<boolean> {
+    const validate = await mongoose.model('Produto').findOne({ barcode: barcode })
+
+    console.log(!validate)
+
+    if (validate) return true
+    else return false
+  }
+
   public async verifyFields (req, options: FieldOptions): Promise<FieldVerified> {
     const data: Data = req
     const msg = []
+
+    console.log(data)
 
     if (data._id || options._id) {
       if (!data._id) {
@@ -100,6 +111,11 @@ class Util {
     // -----------------------------------------------------
     if (data.nome || options.nome) {
       if (!data.nome || !(data.nome.length > 0)) msg.push(required('nome'))
+    }
+    // -----------------------------------------------------
+    if (data.barcode || options.barcode) {
+      if (!data.barcode) msg.push(required('Barcode'))
+      else if (await this.verifyBarcode(data.barcode)) msg.push(invalid('Barcode'))
     }
     // -----------------------------------------------------
     if (data.email || options.email) {

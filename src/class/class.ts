@@ -1,6 +1,7 @@
 export class FieldOptions {
     public _id?: boolean
     public nome?: boolean
+    public barcode?: boolean
     public email?: boolean
     public cpf?: boolean
     public nascimento?: boolean
@@ -21,6 +22,7 @@ export class FieldOptions {
 export class Data {
     public _id?: string
     public nome?: string
+    public barcode?: string
     public email?: string
     public cpf?: string
     public nascimento?: string

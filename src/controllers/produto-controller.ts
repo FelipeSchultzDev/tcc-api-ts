@@ -35,16 +35,29 @@ class ProdutoController {
   }
 
   public async editar (req: Request, res: Response): Promise<Response> {
-    const data: ProdutoInterface = { ...req.body }
-    const validate = await Produto.findOne({ nome: data.nome })
+    const { _id, barcode, nome }: ProdutoInterface = { ...req.body }
+    const validateList = {
+      $or: [
+        { barcode: barcode },
+        { nome: nome }
+      ]
+    }
 
-    if (validate && !(`${validate._id}` === data._id)) return res.status(400).json({ success: false, msg: msg.alreadyInsert('Nome') })
+    const validate = await Produto.find(validateList)
+    const errorList = []
 
-    const marca = await Marca.findOneAndUpdate({ _id: data._id }, data)
+    validate.forEach((produto): void => {
+      if (produto.barcode === barcode) errorList.push(msg.alreadyInsert('Barcode'))
+      if (produto.nome === nome && !(`${produto._id}` === _id)) errorList.push(msg.alreadyInsert('nome'))
+    })
 
-    if (marca) return res.status(200).json({ success: true, msg: msg.successUpdate('Marca') })
+    if (errorList.length > 0) return res.status(400).json({ success: false, msg: errorList })
 
-    return res.status(400).json({ success: false, msg: msg.errorUpdate('Marca') })
+    const produto = await Produto.findOneAndUpdate({ _id: _id }, req.body)
+
+    if (produto) return res.status(200).json({ success: true, msg: msg.successUpdate('Produto') })
+
+    return res.status(400).json({ success: false, msg: msg.errorUpdate('Produto') })
   }
 
   public async desativar (req: Request, res: Response): Promise<void> {

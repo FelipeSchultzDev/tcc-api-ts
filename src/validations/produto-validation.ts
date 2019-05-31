@@ -7,6 +7,7 @@ class ProdutoValidation {
   public async cadastrar (req: Request, res: Response, next: NextFunction): Promise<Response> {
     const options: FieldOptions = {
       nome: true,
+      barcode: true,
       valorVenda: true,
       unidadeMedida: true,
       quantidade: true,
@@ -25,10 +26,7 @@ class ProdutoValidation {
     const options: FieldOptions = {
       _id: true,
       nome: true,
-      valorVenda: true,
-      unidadeMedida: true,
-      quantidade: true,
-      qtdMinima: true,
+      barcode: true,
       model: 'Produto'
     }
     const { msg, data } = await util.verifyFields(req.body, options)
