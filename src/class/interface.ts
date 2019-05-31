@@ -30,6 +30,7 @@ export interface MovimentoInterface extends Document {
 
 export interface ProdutoInterface extends Document {
     nome?: string
+    barcode?: string
     valorVenda?: number
     marca?: string
     unidadeMedida?: string
