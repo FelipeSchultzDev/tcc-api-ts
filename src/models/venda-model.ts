@@ -5,14 +5,15 @@ import { VendaInterface } from './../class/interface'
 const Venda = new Schema({
   produtos: [{
     produto: { type: Schema.Types.ObjectId, ref: 'Venda' },
-    qtd: Number,
+    quantidade: Number,
     valor: Number,
     desconto: Number
   }],
+  dataVenda: { type: Date, required: true, default: Date.now() },
   valorTotal: { type: Number, required: true },
   cliente: { type: Schema.Types.ObjectId, ref: 'Cliente' }
 }, {
-  timestamps: true
+  timestamps: false
 })
 
 export default model<VendaInterface>('Venda', Venda)

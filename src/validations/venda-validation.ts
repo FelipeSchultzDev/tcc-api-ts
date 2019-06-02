@@ -6,8 +6,7 @@ import { FieldOptions } from '../class/class'
 class VendaValidation {
   public async vender (req: Request, res: Response, next: NextFunction): Promise<Response> {
     const options: FieldOptions = {
-      listaProdutos: true,
-      dataVenda: true
+      produtos: true
     }
 
     let { msg, data } = await util.verifyFields(req.body, options)
