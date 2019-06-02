@@ -40,6 +40,8 @@ router.get('/produto/listar', produtoCtrl.listar)
 router.post('/produto/cadastrar', produtoVal.cadastrar, produtoCtrl.cadastrar)
 router.put('/produto/ativar', produtoVal.ativar, produtoCtrl.ativar)
 router.put('/produto/desativar', produtoVal.desativar, produtoCtrl.desativar)
+router.put('/produto/entrada_estoque', produtoVal.entradaEstoque, produtoCtrl.entradaEstoque)
+router.put('/produto/retirada_estoque', produtoVal.retiradaEstoque, produtoCtrl.retiradaEstoque)
 router.put('/produto/editar', produtoVal.editar, produtoCtrl.editar)
 router.delete('/produto/deletar', produtoVal.deletar, produtoCtrl.deletar)
 

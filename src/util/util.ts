@@ -212,7 +212,7 @@ class Util {
     // -----------------------------------------------------
     if (data.quantidade || options.quantidade) {
       if (!data.quantidade && data.quantidade !== 0) msg.push(required('Quantidade'))
-      else if (data.quantidade <= 0) msg.push(moreThen('quantidade', 'zero'))
+      else if (data.quantidade <= 0) msg.push('A descrição deve ter mais de um caracter')
     }
     // -----------------------------------------------------
     if (data.qtdMinima || options.qtdMinima) {

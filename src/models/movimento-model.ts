@@ -7,7 +7,8 @@ const Movimento = new Schema({
   dataVenda: { type: Date, required: true, default: Date.now() },
   tipo: { type: Schema.Types.ObjectId, ref: 'Tipo', required: true },
   quantidade: { type: Number, required: true },
-  valor: { type: Number, required: true }
+  valor: { type: Number, required: true },
+  descricao: { type: String, default: '' }
 }, {
   timestamps: false
 })

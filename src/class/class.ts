@@ -16,7 +16,6 @@ export class FieldOptions {
     public descricao?: boolean
     public produtos?: boolean
     public dataVenda?: boolean
-
     public model?: string;
 }
 export class Data {
