@@ -34,7 +34,7 @@ export interface ProdutoInterface extends Document {
     valorVenda?: number
     marca?: string
     unidadeMedida?: string
-    qtd?: number
+    quantidade?: number
     descricao?: string
     qtdMinima?: number
     status?: boolean

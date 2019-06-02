@@ -14,7 +14,7 @@ export class FieldOptions {
     public quantidade?: boolean
     public qtdMinima?: boolean
     public descricao?: boolean
-    public listaProdutos?: boolean
+    public produtos?: boolean
     public dataVenda?: boolean
 
     public model?: string;
@@ -35,7 +35,7 @@ export class Data {
     public quantidade?: number
     public qtdMinima?: number
     public descricao?: string
-    public listaProdutos?: ProdutoVenda[]
+    public produtos?: ProdutoVenda[]
     public dataVenda?: string
 }
 
@@ -52,7 +52,7 @@ export class Compras {
 
 export class ProdutoVenda {
     public produto: string
-    public qtd: number
+    public quantidade: number
     public valor: number
     public desconto: number
 }
@@ -61,4 +61,11 @@ export class IdOptions {
     public result: boolean
     public m?: string
     public ms?: string[]
+}
+
+export class MovimentoClass {
+    public produto?: string
+    public tipo?: string
+    public quantidade?: number
+    public valor?: number
 }

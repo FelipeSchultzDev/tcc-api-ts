@@ -3,6 +3,7 @@ import md5 from 'md5'
 
 import { required, invalid, moreThen, idInvalid } from './messages'
 import { FieldOptions, FieldVerified, Data, IdOptions } from './../class/class'
+import Produto from './../models/produto-model'
 
 class Util {
   public emailValidation (email: string): boolean {
@@ -94,11 +95,48 @@ class Util {
     else return false
   }
 
+  public produtosValidation (data): Promise<boolean> {
+    const validateList = []
+    const promises = []
+
+    data.produtos.forEach((produto): void => {
+      if (!validateList.find((prod): boolean => prod.id === produto.produto)) {
+        validateList.push({ id: produto.produto, quantidade: 0 })
+      }
+    })
+
+    validateList.forEach((produto): void => {
+      data.produtos.forEach((prod): void => {
+        if (prod.produto === produto.id) produto.quantidade += prod.quantidade
+      })
+    })
+
+    validateList.forEach((produto): void => {
+      promises.push(Produto.findOne({ _id: produto.id }))
+      // if (!validate) reject(new Error('erro'))
+      // else if (validate.quantidade < produto.quantidade) reject(new Error('erro'))
+    })
+    return new Promise((resolve): void => {
+      Promise.all(promises)
+        .then((res): void => {
+          res.forEach((findProd): void => {
+            validateList.forEach((produto): void => {
+              if (`${findProd._id}` === produto.id) {
+                if (produto.quantidade > findProd.quantidade) resolve(false)
+              }
+            })
+          })
+          resolve(true)
+        })
+        .catch((): void => {
+          resolve(false)
+        })
+    })
+  }
+
   public async verifyFields (req, options: FieldOptions): Promise<FieldVerified> {
     const data: Data = req
     const msg = []
-
-    console.log(data)
 
     if (data._id || options._id) {
       if (!data._id) {
@@ -187,10 +225,9 @@ class Util {
       else if (data.descricao.length <= 0) msg.push('O campo descricao deve ter mais de uma letra')
     }
     // -----------------------------------------------------
-    if (data.dataVenda || options.dataVenda) {
-      if (!data.dataVenda || !(data.dataVenda.length > 0)) msg.push(required('dataVenda'))
-      else if (!this.dateValidation(data.dataVenda)) msg.push(invalid('Data de venda'))
-      else data.dataVenda = this.dateConvert(data.dataVenda)
+    if (data.produtos || options.produtos) {
+      if (!data.produtos || data.produtos.length <= 0) msg.push(required('produtos'))
+      else if (!await this.produtosValidation(data)) msg.push('Venda Inválida')
     }
     // -----------------------------------------------------
 
