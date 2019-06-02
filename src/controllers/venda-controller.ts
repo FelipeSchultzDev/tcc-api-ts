@@ -47,7 +47,7 @@ class VendaController {
       .then((): Promise<boolean> => {
         return updateProduto(req.body)
       })
-      .then((): Response => res.status(200).json({ success: true, msg: 'Criando' }))
+      .then((): Response => res.status(200).json({ success: true, msg: 'Venda concluida' }))
       .catch((err): Response => res.status(400).json({ success: false, msg: err }))
   }
 }

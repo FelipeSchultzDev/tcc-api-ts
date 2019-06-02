@@ -4,6 +4,19 @@ import * as msg from './../util/messages'
 import Produto from '../models/produto-model'
 import Movimento from '../models/movimento-model'
 import { ProdutoInterface } from '../class/interface'
+import Tipo from '../models/tipo-model'
+
+const createMovimento = (data, type: string): Promise<boolean> => {
+  return new Promise(async (resolve, reject): Promise<void> => {
+    const tipo = await Tipo.findOne({ nome: type })
+
+    if (!tipo) reject(new Error(`O tipo "${type}" não existe no banco`))
+
+    Movimento.create({ produto: data._id, tipo: tipo, quantidade: data.quantidade, valor: data.valor, descricao: data.descricao })
+      .then((): void => resolve(true))
+      .catch((): void => reject(new Error('Erro ao criar movimento')))
+  })
+}
 
 class ProdutoController {
   public async ld (req: Request, res: Response): Promise<Response> {
@@ -58,6 +71,33 @@ class ProdutoController {
     if (produto) return res.status(200).json({ success: true, msg: msg.successUpdate('Produto') })
 
     return res.status(400).json({ success: false, msg: msg.errorUpdate('Produto') })
+  }
+
+  public async entradaEstoque (req: Request, res: Response): Promise<void> {
+    const { _id, quantidade }: ProdutoInterface = { ...req.body }
+
+    Produto.findOneAndUpdate({ _id: _id }, { $inc: { quantidade: quantidade } })
+      .then((): Promise<boolean> => {
+        return createMovimento(req.body, 'entrada')
+      })
+      .then((): Response => res.status(200).json({ success: true, msg: msg.successUpdate('Produto') }))
+      .catch((): Response => res.status(400).json({ success: false, msg: msg.errorUpdate('Produto') }))
+  }
+
+  public async retiradaEstoque (req: Request, res: Response): Promise<Response> {
+    const { _id, quantidade }: ProdutoInterface = { ...req.body }
+
+    const validate = await Produto.findOne({ _id: _id })
+
+    if (!validate) return res.status(400).json({ success: false, msg: msg.notFoundId('Produto') })
+    else if (validate.quantidade < quantidade) return res.status(400).json({ success: false, msg: 'Quantidade de retirada inválida' })
+
+    Produto.findOneAndUpdate({ _id: _id }, { $inc: { quantidade: -quantidade } })
+      .then((): Promise<boolean> => {
+        return createMovimento(req.body, 'retirada')
+      })
+      .then((): Response => res.status(200).json({ success: true, msg: msg.successUpdate('Produto') }))
+      .catch((): Response => res.status(400).json({ success: false, msg: msg.errorUpdate('Produto') }))
   }
 
   public async desativar (req: Request, res: Response): Promise<void> {
