@@ -25,6 +25,22 @@ class LoginController {
 
     return res.status(200).json({ success: true, _token: token })
   }
+
+  public async validate (req: Request, res: Response): Promise<Response> {
+    const token = req.body._token
+
+    if (token) {
+      try {
+        let decoded = await jwt.verify(token, variables.Security.secretKey).user
+        res.locals.user = decoded
+        return res.status(200).send({ success: true })
+      } catch (error) {
+        return res.status(200).send({ success: false })
+      }
+    } else {
+      return res.status(200).send({ success: false })
+    }
+  }
 }
 
 export default new LoginController()

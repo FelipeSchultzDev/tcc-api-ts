@@ -16,7 +16,7 @@ class ClienteValidation {
     req.body = data
 
     if (!(msg.length > 0)) next()
-    else return res.status(400).json({ success: false, msg: msg })
+    else return res.status(200).json({ success: false, msg: msg })
   }
 
   public async editar (req: Request, res: Response, next: NextFunction): Promise<Response> {
@@ -31,7 +31,7 @@ class ClienteValidation {
     req.body = data
 
     if (!(msg.length > 0)) next()
-    else return res.status(400).json({ success: false, msg: msg })
+    else return res.status(200).json({ success: false, msg: msg })
   }
 
   public async desativar (req: Request, res: Response, next: NextFunction): Promise<Response> {
@@ -39,7 +39,7 @@ class ClienteValidation {
     req.body = data
 
     if (!(msg.length > 0)) next()
-    else return res.status(400).json({ success: false, msg: msg })
+    else return res.status(200).json({ success: false, msg: msg })
   }
 
   public async ativar (req: Request, res: Response, next: NextFunction): Promise<Response> {
@@ -47,7 +47,7 @@ class ClienteValidation {
     req.body = data
 
     if (!(msg.length > 0)) next()
-    else return res.status(400).json({ success: false, msg: msg })
+    else return res.status(200).json({ success: false, msg: msg })
   }
 
   public async deletar (req: Request, res: Response, next: NextFunction): Promise<Response> {
@@ -55,7 +55,7 @@ class ClienteValidation {
     req.body = data
 
     if (!(msg.length > 0)) next()
-    else return res.status(400).json({ success: false, msg: msg })
+    else return res.status(200).json({ success: false, msg: msg })
   }
 }
 

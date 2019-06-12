@@ -19,10 +19,10 @@ const token = async (req: Request, res: Response, next: NextFunction): Promise<R
       res.locals.user = decoded
       next()
     } catch (error) {
-      return res.status(401).send({ msg: tokenInvalid() })
+      return res.status(200).send({ success: false, msg: tokenInvalid() })
     }
   } else {
-    return res.status(401).send({ msg: tokenNull() })
+    return res.status(200).send({ success: false, msg: tokenNull() })
   }
 }
 

@@ -13,7 +13,7 @@ class VendaValidation {
     req.body = data
 
     if (!(msg.length > 0)) next()
-    else return res.status(400).json({ success: false, msg: msg })
+    else return res.status(200).json({ success: false, msg: msg })
   }
 }
 
