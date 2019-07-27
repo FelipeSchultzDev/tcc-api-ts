@@ -23,28 +23,28 @@ class ProdutoController {
     const produto = await Produto.find({ status: false }).populate('marca unidadeMedida', 'nome -_id').select('-__v')
 
     if (produto && produto.length > 0) return res.status(200).json({ success: true, produto: produto })
-    else if (produto && !(produto.length > 0)) return res.status(400).json({ success: false, msg: msg.notFound('Produto') })
-    else return res.status(400).json({ success: false, msg: msg.errorGet('Produto') })
+    else if (produto && !(produto.length > 0)) return res.status(200).json({ success: false, msg: msg.notFound('Produto') })
+    else return res.status(200).json({ success: false, msg: msg.errorGet('Produto') })
   }
 
   public async listar (req: Request, res: Response): Promise<Response> {
     const produto = await Produto.find({ status: true }).populate('marca unidadeMedida', 'nome -_id').select('-__v')
 
     if (produto && produto.length > 0) return res.status(200).json({ success: true, produto: produto })
-    else if (produto && !(produto.length > 0)) return res.status(400).json({ success: false, msg: msg.notFound('Produto') })
-    else return res.status(400).json({ success: false, msg: msg.errorGet('Produto') })
+    else if (produto && !(produto.length > 0)) return res.status(200).json({ success: false, msg: msg.notFound('Produto') })
+    else return res.status(200).json({ success: false, msg: msg.errorGet('Produto') })
   }
 
   public async cadastrar (req: Request, res: Response): Promise<Response> {
     const validate = await Produto.findOne({ nome: req.body.nome })
 
-    if (validate) return res.status(400).json({ success: false, msg: [msg.alreadyInsert('Produto')] })
+    if (validate) return res.status(200).json({ success: false, msg: [msg.alreadyInsert('Produto')] })
 
     const produto = await Produto.create(req.body)
 
     if (produto) return res.status(200).json({ success: true, msg: [msg.successInsert('Produto')] })
 
-    return res.status(400).json({ success: false, msg: msg.errorInsert('Produto') })
+    return res.status(200).json({ success: false, msg: msg.errorInsert('Produto') })
   }
 
   public async editar (req: Request, res: Response): Promise<Response> {
@@ -64,13 +64,13 @@ class ProdutoController {
       if (produto.nome === nome && !(`${produto._id}` === _id)) errorList.push(msg.alreadyInsert('nome'))
     })
 
-    if (errorList.length > 0) return res.status(400).json({ success: false, msg: errorList })
+    if (errorList.length > 0) return res.status(200).json({ success: false, msg: errorList })
 
     const produto = await Produto.findOneAndUpdate({ _id: _id }, req.body)
 
     if (produto) return res.status(200).json({ success: true, msg: msg.successUpdate('Produto') })
 
-    return res.status(400).json({ success: false, msg: msg.errorUpdate('Produto') })
+    return res.status(200).json({ success: false, msg: msg.errorUpdate('Produto') })
   }
 
   public async entradaEstoque (req: Request, res: Response): Promise<void> {
@@ -81,7 +81,7 @@ class ProdutoController {
         return createMovimento(req.body, 'entrada')
       })
       .then((): Response => res.status(200).json({ success: true, msg: msg.successUpdate('Produto') }))
-      .catch((): Response => res.status(400).json({ success: false, msg: msg.errorUpdate('Produto') }))
+      .catch((): Response => res.status(200).json({ success: false, msg: msg.errorUpdate('Produto') }))
   }
 
   public async retiradaEstoque (req: Request, res: Response): Promise<Response> {
@@ -89,15 +89,15 @@ class ProdutoController {
 
     const validate = await Produto.findOne({ _id: _id })
 
-    if (!validate) return res.status(400).json({ success: false, msg: msg.notFoundId('Produto') })
-    else if (validate.quantidade < quantidade) return res.status(400).json({ success: false, msg: 'Quantidade de retirada inválida' })
+    if (!validate) return res.status(200).json({ success: false, msg: msg.notFoundId('Produto') })
+    else if (validate.quantidade < quantidade) return res.status(200).json({ success: false, msg: 'Quantidade de retirada inválida' })
 
     Produto.findOneAndUpdate({ _id: _id }, { $inc: { quantidade: -quantidade } })
       .then((): Promise<boolean> => {
         return createMovimento(req.body, 'retirada')
       })
       .then((): Response => res.status(200).json({ success: true, msg: msg.successUpdate('Produto') }))
-      .catch((): Response => res.status(400).json({ success: false, msg: msg.errorUpdate('Produto') }))
+      .catch((): Response => res.status(200).json({ success: false, msg: msg.errorUpdate('Produto') }))
   }
 
   public async desativar (req: Request, res: Response): Promise<void> {
@@ -106,7 +106,7 @@ class ProdutoController {
         return res.status(200).json({ success: true, msg: msg.disabled('Produto') })
       })
       .catch((): Response => {
-        return res.status(400).json({ success: false, msg: 'Erro ao desativar' })
+        return res.status(200).json({ success: false, msg: 'Erro ao desativar' })
       })
   }
 
@@ -116,13 +116,13 @@ class ProdutoController {
         return res.status(200).json({ success: true, msg: msg.enabled('Produto') })
       })
       .catch((): Response => {
-        return res.status(400).json({ success: false, msg: 'Erro ao desativar' })
+        return res.status(200).json({ success: false, msg: 'Erro ao desativar' })
       })
   }
 
   public async deletar (req: Request, res: Response): Promise<Response> {
     const movimento = await Movimento.findOne({ produto: req.body._id })
-    if (movimento) return res.status(400).json({ success: false, msg: msg.cantDelete('Produto') })
+    if (movimento) return res.status(200).json({ success: false, msg: msg.cantDelete('Produto') })
 
     await Produto.findByIdAndDelete(req.body._id)
 

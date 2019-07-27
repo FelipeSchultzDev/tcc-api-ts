@@ -1,6 +1,6 @@
 {
-  "name": "api-rest",
-  "version": "1.0.0",
+  "name": "api-tcc",
+  "version": "2.0.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {

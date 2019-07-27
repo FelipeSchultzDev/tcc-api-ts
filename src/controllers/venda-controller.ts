@@ -48,7 +48,7 @@ class VendaController {
         return updateProduto(req.body)
       })
       .then((): Response => res.status(200).json({ success: true, msg: 'Venda concluida' }))
-      .catch((err): Response => res.status(400).json({ success: false, msg: err }))
+      .catch((err): Response => res.status(200).json({ success: false, msg: err }))
   }
 }
 

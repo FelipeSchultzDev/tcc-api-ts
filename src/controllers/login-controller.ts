@@ -7,12 +7,13 @@ import util from './../util/util'
 
 class LoginController {
   public async doLogin (req: Request, res: Response): Promise<Response> {
+    console.log('teste')
     const acesso = await Acesso.findOne({
       usuario: req.body.usuario,
       senha: util.encode(req.body.senha)
     })
 
-    if (!acesso) return res.status(401).json({ success: false, msg: 'Usuário ou senha incorretos' })
+    if (!acesso) return res.status(200).json({ success: false, msg: 'Usuário ou senha incorretos' })
 
     const user = {
       id: acesso._id,
@@ -24,6 +25,21 @@ class LoginController {
     })
 
     return res.status(200).json({ success: true, _token: token })
+  }
+
+  public async validate (req: Request, res: Response): Promise<Response> {
+    const token = req.body._token
+
+    if (token) {
+      try {
+        await jwt.verify(token, variables.Security.secretKey).user
+        return res.status(200).send({ success: true })
+      } catch (error) {
+        return res.status(200).send({ success: false })
+      }
+    } else {
+      return res.status(200).send({ success: false })
+    }
   }
 }
 

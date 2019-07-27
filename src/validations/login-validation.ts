@@ -12,7 +12,7 @@ class LoginValidation {
 
     const { msg, data } = await util.verifyFields(req.body, options)
 
-    if (msg.length > 0) return res.status(400).json({ success: false, msg: msg })
+    if (msg.length > 0) return res.status(200).json({ success: false, msg: msg })
 
     req.body = data
     next()

@@ -7,11 +7,11 @@ class MovimentoController {
   public async listar (req: Request, res: Response): Promise<void> {
     Movimento.find()
       .then((result): Response => {
-        if (result.length <= 0) return res.status(400).json({ success: false, movimentos: notFound('Movimento') })
+        if (result.length <= 0) return res.status(200).json({ success: false, movimentos: notFound('Movimento') })
         else return res.status(200).json({ success: true, movimentos: result })
       })
       .catch((): Response => {
-        return res.status(400).json({ success: false, msg: errorGet('Movimento') })
+        return res.status(200).json({ success: false, msg: errorGet('Movimento') })
       })
   }
 }
