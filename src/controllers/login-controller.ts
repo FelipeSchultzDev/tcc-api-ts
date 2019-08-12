@@ -7,7 +7,6 @@ import util from './../util/util'
 
 class LoginController {
   public async doLogin (req: Request, res: Response): Promise<Response> {
-    console.log('teste')
     const acesso = await Acesso.findOne({
       usuario: req.body.usuario,
       senha: util.encode(req.body.senha)

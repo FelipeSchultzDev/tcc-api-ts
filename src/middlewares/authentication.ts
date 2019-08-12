@@ -5,7 +5,7 @@ import { tokenInvalid, tokenNull } from './../util/messages'
 import variables from './../config/variables'
 
 const token = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
-  let token = req.body.token || req.query.query || req.headers['x-access-token']
+  let token = req.body.token || req.query.query || req.headers['_token']
 
   if (token === 'dev') {
     res.locals.user = { permissao: 'admin' }
