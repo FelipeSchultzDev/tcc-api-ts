@@ -30,45 +30,35 @@ http://localhost:3000
 ## Marca
 
 ```
-'get': /marca/listar_desabilitados | Lista de marcas desabilitadas
+'get': /marca/desabilitados | Lista de marcas desabilitadas
 ```
 
 ```
-'get': /marca/listar | Lista de marcas habilitadas
+'get': /marca/habilitados | Lista de marcas habilitadas
 ```
 
 ```
-'post': /marca/cadastrar | Cadastrar marca
+'post': /marca | Cadastrar marca
 {
   nome: string
 }
 ```
 
 ```
-'put': /marca/ativar | Habilita uma marca
-{
-  _id: string
-}
+'put': /marca/:id/ativar | Habilita uma marca
 ```
 
 ```
-'put': /marca/desativar| desabilita uma marca
-{
-  _id: string
-}
+'put': /marca/:id/desativar| desabilita uma marca
 ```
 
 ```
-'put': /marca/editar| Edita uma marca
+'put': /marca/:id/editar| Edita uma marca
 {
-  _id: string,
   nome: string
 }
 ```
 
 ```
-'delete': /marca/deletar| Deleta uma marca
-{
-  _id: string
-}
+'delete': /marca/:id/deletar| Deleta uma marca
 ```

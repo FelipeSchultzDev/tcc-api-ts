@@ -26,13 +26,13 @@ router.put('/cliente/editar', clienteVal.editar, clientCtrl.editar)
 router.delete('/cliente/deletar', clienteVal.deletar, clientCtrl.deletar)
 
 // Marca
-router.get('/marca/listar_desabilitados', marcaCtrl.ld)
-router.get('/marca/listar', marcaCtrl.listar)
-router.post('/marca/cadastrar', marcaVal.cadastrar, marcaCtrl.cadastrar)
-router.put('/marca/ativar', marcaVal.ativar, marcaCtrl.ativar)
-router.put('/marca/desativar', marcaVal.desativar, marcaCtrl.desativar)
-router.put('/marca/editar', marcaVal.editar, marcaCtrl.editar)
-router.delete('/marca/deletar', marcaVal.deletar, marcaCtrl.deletar)
+router.get('/marca/desabilitados', marcaCtrl.ld)
+router.get('/marca/habilitados', marcaCtrl.listar)
+router.post('/marca', marcaVal.cadastrar, marcaCtrl.cadastrar)
+router.put('/marca/:id/ativar', marcaVal.ativar, marcaCtrl.ativar)
+router.put('/marca/:id/desativar', marcaVal.desativar, marcaCtrl.desativar)
+router.put('/marca/:id', marcaVal.editar, marcaCtrl.editar)
+router.delete('/marca/:id', marcaVal.deletar, marcaCtrl.deletar)
 
 // Produto
 router.get('/produto/listar_desabilitados', produtoCtrl.ld)

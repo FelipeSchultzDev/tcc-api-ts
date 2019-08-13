@@ -12,6 +12,7 @@ class MarcaValidation {
   }
 
   public async editar (req: Request, res: Response, next: NextFunction): Promise<Response> {
+    req.body._id = req.params.id
     let { msg, data } = await util.verifyFields(req.body, { _id: true, nome: true, model: 'Marca' })
     req.body = data
 
@@ -20,6 +21,7 @@ class MarcaValidation {
   }
 
   public async desativar (req: Request, res: Response, next: NextFunction): Promise<Response> {
+    req.body._id = req.params.id
     let { msg, data } = await util.verifyFields(req.body, { _id: true, model: 'Marca' })
     req.body = data
 
@@ -28,6 +30,7 @@ class MarcaValidation {
   }
 
   public async ativar (req: Request, res: Response, next: NextFunction): Promise<Response> {
+    req.body._id = req.params.id
     let { msg, data } = await util.verifyFields(req.body, { _id: true, model: 'Marca' })
     req.body = data
 
@@ -36,6 +39,7 @@ class MarcaValidation {
   }
 
   public async deletar (req: Request, res: Response, next: NextFunction): Promise<Response> {
+    req.body._id = req.params.id
     let { msg, data } = await util.verifyFields(req.body, { _id: true, model: 'Marca' })
     req.body = data
 
