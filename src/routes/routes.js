@@ -17,13 +17,13 @@ import vendaVal from './../validations/venda-validation'
 const router = Router()
 
 // Cliente
-router.get('/cliente/listar_desabilitados', clientCtrl.ld)
-router.get('/cliente/listar', clientCtrl.listar)
-router.post('/cliente/cadastrar', clienteVal.cadastrar, clientCtrl.cadastrar)
-router.put('/cliente/ativar', clienteVal.ativar, clientCtrl.ativar)
-router.put('/cliente/desativar', clienteVal.desativar, clientCtrl.desativar)
-router.put('/cliente/editar', clienteVal.editar, clientCtrl.editar)
-router.delete('/cliente/deletar', clienteVal.deletar, clientCtrl.deletar)
+router.get('/cliente/desabilitados', clientCtrl.ld)
+router.get('/cliente/habilitados', clientCtrl.listar)
+router.post('/cliente', clienteVal.cadastrar, clientCtrl.cadastrar)
+router.put('/cliente/:id/ativar', clienteVal.ativar, clientCtrl.ativar)
+router.put('/cliente/:id/desativar', clienteVal.desativar, clientCtrl.desativar)
+router.put('/cliente/:id', clienteVal.editar, clientCtrl.editar)
+router.delete('/cliente/:id', clienteVal.deletar, clientCtrl.deletar)
 
 // Marca
 router.get('/marca/desabilitados', marcaCtrl.ld)
@@ -35,15 +35,15 @@ router.put('/marca/:id', marcaVal.editar, marcaCtrl.editar)
 router.delete('/marca/:id', marcaVal.deletar, marcaCtrl.deletar)
 
 // Produto
-router.get('/produto/listar_desabilitados', produtoCtrl.ld)
-router.get('/produto/listar', produtoCtrl.listar)
-router.post('/produto/cadastrar', produtoVal.cadastrar, produtoCtrl.cadastrar)
-router.put('/produto/ativar', produtoVal.ativar, produtoCtrl.ativar)
-router.put('/produto/desativar', produtoVal.desativar, produtoCtrl.desativar)
-router.put('/produto/entrada_estoque', produtoVal.entradaEstoque, produtoCtrl.entradaEstoque)
-router.put('/produto/retirada_estoque', produtoVal.retiradaEstoque, produtoCtrl.retiradaEstoque)
-router.put('/produto/editar', produtoVal.editar, produtoCtrl.editar)
-router.delete('/produto/deletar', produtoVal.deletar, produtoCtrl.deletar)
+router.get('/produto/desabilitados', produtoCtrl.ld)
+router.get('/produto/habilitados', produtoCtrl.listar)
+router.post('/produto', produtoVal.cadastrar, produtoCtrl.cadastrar)
+router.put('/produto/:id/ativar', produtoVal.ativar, produtoCtrl.ativar)
+router.put('/produto/:id/desativar', produtoVal.desativar, produtoCtrl.desativar)
+router.put('/produto/:id/entrada_estoque', produtoVal.entradaEstoque, produtoCtrl.entradaEstoque)
+router.put('/produto/:id/retirada_estoque', produtoVal.retiradaEstoque, produtoCtrl.retiradaEstoque)
+router.put('/produto/:id', produtoVal.editar, produtoCtrl.editar)
+router.delete('/produto/:id', produtoVal.deletar, produtoCtrl.deletar)
 
 // Movimento
 router.get('/movimento/', movimentoCtrl.listar)
