@@ -22,11 +22,9 @@ class ClienteValidation {
   public async editar (req: Request, res: Response, next: NextFunction): Promise<Response> {
     const options: FieldOptions = {
       _id: true,
-      nome: true,
-      cpf: true,
-      nascimento: true,
       model: 'Cliente'
     }
+    console.log(req.body)
     let { msg, data } = await util.verifyFields(req.body, options)
     req.body = data
 
@@ -35,6 +33,8 @@ class ClienteValidation {
   }
 
   public async desativar (req: Request, res: Response, next: NextFunction): Promise<Response> {
+    req.body._id = req.params.id
+
     let { msg, data } = await util.verifyFields(req.body, { _id: true, model: 'Cliente' })
     req.body = data
 
@@ -43,6 +43,8 @@ class ClienteValidation {
   }
 
   public async ativar (req: Request, res: Response, next: NextFunction): Promise<Response> {
+    req.body._id = req.params.id
+
     let { msg, data } = await util.verifyFields(req.body, { _id: true, model: 'Cliente' })
     req.body = data
 
