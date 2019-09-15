@@ -89,8 +89,6 @@ class Util {
   public async verifyBarcode (barcode): Promise<boolean> {
     const validate = await mongoose.model('Produto').findOne({ barcode: barcode })
 
-    console.log(!validate)
-
     if (validate) return true
     else return false
   }
@@ -157,11 +155,14 @@ class Util {
     }
     // -----------------------------------------------------
     if (data.email || options.email) {
-      if (!data.email || !(data.email.length > 0)) msg.push(required('e-mail'))
-      else if (!this.emailValidation(data.email)) msg.push(invalid('E-mail'))
+      if (!data.email || !(data.email.length > 0)) msg.push(required('email'))
+      else if (!this.emailValidation(data.email)) msg.push(invalid('Email'))
     }
     // -----------------------------------------------------
     if (data.cpf || options.cpf) {
+      if (data.cpf.length > 11) {
+        data.cpf = data.cpf.replace('.', '').replace('.', '').replace('.', '').replace('-', '')
+      }
       if (!data.cpf || !(data.cpf.length > 0)) msg.push(required('cpf'))
       else if (!this.cpfValidation(data.cpf)) msg.push(invalid('Cpf'))
     }

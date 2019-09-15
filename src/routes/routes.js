@@ -19,6 +19,7 @@ const router = Router()
 // Cliente
 router.get('/cliente/desabilitados', clientCtrl.ld)
 router.get('/cliente/habilitados', clientCtrl.listar)
+router.get('/cliente/:id', clienteVal.getById, clientCtrl.getById)
 router.post('/cliente', clienteVal.cadastrar, clientCtrl.cadastrar)
 router.put('/cliente/:id/ativar', clienteVal.ativar, clientCtrl.ativar)
 router.put('/cliente/:id/desativar', clienteVal.desativar, clientCtrl.desativar)

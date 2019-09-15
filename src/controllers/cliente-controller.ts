@@ -21,6 +21,12 @@ class ClienteController {
     else return res.status(200).json({ success: false, msg: msg.errorGet('Cliente') })
   }
 
+  public async getById (req: Request, res: Response): Promise<Response> {
+    const cliente = await Cliente.findById({ _id: req.params.id }).select('-__v -updatedAt')
+    if (cliente) return res.status(200).json({ success: true, cliente })
+    return res.status(200).json({ success: false, msg: msg.errorGet('Cliente') })
+  }
+
   public async cadastrar (req: Request, res: Response): Promise<Response> {
     const { cpf, celular, email }: ClienteInterface = req.body
 
@@ -37,8 +43,8 @@ class ClienteController {
     const errorList = []
 
     validate.forEach((cliente): void => {
-      if (cliente.celular === celular) errorList.push(msg.alreadyInsert('Celular'))
-      if (cliente.email === email) errorList.push(msg.alreadyInsert('email'))
+      if (cliente.celular === celular && cliente.celular !== '') errorList.push(msg.alreadyInsert('Celular'))
+      if (cliente.email === email && cliente.email !== '') errorList.push(msg.alreadyInsert('email'))
       if (cliente.cpf === cpf) errorList.push(msg.alreadyInsert('cpf'))
     })
 
@@ -67,9 +73,9 @@ class ClienteController {
 
     for (let i = 0; i < validate.length; i++) {
       const cliente = validate[i]
-      if (cliente.celular === celular && !(cliente._id === _id)) errorList.push(msg.alreadyInsert('Celular'))
-      if (cliente.email === email && !(cliente._id === _id)) errorList.push(msg.alreadyInsert('email'))
-      if (cliente.cpf === cpf && !(cliente._id === _id)) errorList.push(msg.alreadyInsert('cpf'))
+      if (cliente.celular === celular && cliente.celular !== '' && !(cliente._id.toString() === _id)) errorList.push(msg.alreadyInsert('Celular'))
+      if (cliente.email === email && cliente.email !== '' && !(cliente._id.toString() === _id)) errorList.push(msg.alreadyInsert('email'))
+      if (cliente.cpf === cpf && cliente.cpf !== '' && !(cliente._id.toString() === _id)) errorList.push(msg.alreadyInsert('cpf'))
     }
 
     if (errorList.length > 0) return res.status(200).json({ success: false, msg: errorList })
