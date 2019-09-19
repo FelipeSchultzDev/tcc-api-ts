@@ -5,7 +5,7 @@ import { ProdutoInterface } from './../class/interface'
 const Produto = new Schema({
   nome: { type: String, required: true },
   valorVenda: { type: Number, required: true },
-  marca: { type: Schema.Types.ObjectId, ref: 'Marca' },
+  marca: { type: Schema.Types.ObjectId, required: false, ref: 'Marca' },
   unidadeMedida: { type: Schema.Types.ObjectId, ref: 'Tipo', required: true },
   quantidade: { type: Number, required: true },
   descricao: { type: String },

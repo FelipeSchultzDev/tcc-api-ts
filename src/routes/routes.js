@@ -38,6 +38,7 @@ router.delete('/marca/:id', marcaVal.deletar, marcaCtrl.deletar)
 // Produto
 router.get('/produto/desabilitados', produtoCtrl.ld)
 router.get('/produto/habilitados', produtoCtrl.listar)
+router.get('/produto/comboOptions', produtoCtrl.comboOptions)
 router.post('/produto', produtoVal.cadastrar, produtoCtrl.cadastrar)
 router.put('/produto/:id/ativar', produtoVal.ativar, produtoCtrl.ativar)
 router.put('/produto/:id/desativar', produtoVal.desativar, produtoCtrl.desativar)

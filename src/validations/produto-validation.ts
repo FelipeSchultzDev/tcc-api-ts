@@ -66,6 +66,7 @@ class ProdutoValidation {
   }
 
   public async desativar (req: Request, res: Response, next: NextFunction): Promise<Response> {
+    req.body._id = req.params.id
     const { msg, data } = await util.verifyFields(req.body, { _id: true, model: 'Produto' })
     req.body = data
 
@@ -74,6 +75,7 @@ class ProdutoValidation {
   }
 
   public async ativar (req: Request, res: Response, next: NextFunction): Promise<Response> {
+    req.body._id = req.params.id
     const { msg, data } = await util.verifyFields(req.body, { _id: true, model: 'Produto' })
     req.body = data
 
@@ -82,6 +84,7 @@ class ProdutoValidation {
   }
 
   public async deletar (req: Request, res: Response, next: NextFunction): Promise<Response> {
+    req.body._id = req.params.id
     const { msg, data } = await util.verifyFields(req.body, { _id: true, model: 'Produto' })
     req.body = data
 

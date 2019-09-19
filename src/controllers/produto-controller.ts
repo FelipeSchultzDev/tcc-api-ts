@@ -2,9 +2,10 @@ import { Request, Response } from 'express'
 
 import * as msg from './../util/messages'
 import Produto from '../models/produto-model'
+import Marca from '../models/marca-model'
+import Tipo from '../models/tipo-model'
 import Movimento from '../models/movimento-model'
 import { ProdutoInterface } from '../class/interface'
-import Tipo from '../models/tipo-model'
 
 const createMovimento = (data, type: string): Promise<boolean> => {
   return new Promise(async (resolve, reject): Promise<void> => {
@@ -20,19 +21,41 @@ const createMovimento = (data, type: string): Promise<boolean> => {
 
 class ProdutoController {
   public async ld (req: Request, res: Response): Promise<Response> {
-    const produto = await Produto.find({ status: false }).populate('marca unidadeMedida', 'nome -_id').select('-__v')
+    const produtos = await Produto.find({ status: false }).populate('marca unidadeMedida', 'nome -_id').select('-__v')
 
-    if (produto && produto.length > 0) return res.status(200).json({ success: true, produto: produto })
-    else if (produto && !(produto.length > 0)) return res.status(200).json({ success: false, msg: msg.notFound('Produto') })
+    if (produtos && produtos.length > 0) return res.status(200).json({ success: true, produtos: produtos })
+    else if (produtos && !(produtos.length > 0)) return res.status(200).json({ success: false, msg: msg.notFound('Produto') })
     else return res.status(200).json({ success: false, msg: msg.errorGet('Produto') })
   }
 
   public async listar (req: Request, res: Response): Promise<Response> {
-    const produto = await Produto.find({ status: true }).populate('marca unidadeMedida', 'nome -_id').select('-__v')
+    const produtos = await Produto.find({ status: true }).populate('marca unidadeMedida', 'nome -_id').select('-__v')
 
-    if (produto && produto.length > 0) return res.status(200).json({ success: true, produto: produto })
-    else if (produto && !(produto.length > 0)) return res.status(200).json({ success: false, msg: msg.notFound('Produto') })
+    if (produtos && produtos.length > 0) return res.status(200).json({ success: true, produtos: produtos })
+    else if (produtos && !(produtos.length > 0)) return res.status(200).json({ success: false, msg: msg.notFound('Produto') })
     else return res.status(200).json({ success: false, msg: msg.errorGet('Produto') })
+  }
+
+  public async comboOptions (req: Request, res: Response): Promise<Response> {
+    const marcas = await Marca.find({ status: true }).select('_id nome')
+    const tipos = await Tipo.find({ tag: 'unidade' }).select('_id nome')
+
+    const response = {
+      marcas: marcas.map((marca): Combo => {
+        return {
+          label: marca.nome,
+          value: marca._id
+        }
+      }),
+      tipos: tipos.map((tipo): Combo => {
+        return {
+          label: tipo.nome,
+          value: tipo._id
+        }
+      })
+    }
+
+    return res.status(200).json({ success: true, combo: response })
   }
 
   public async cadastrar (req: Request, res: Response): Promise<Response> {
@@ -130,3 +153,8 @@ class ProdutoController {
   }
 }
 export default new ProdutoController()
+
+interface Combo {
+  label: string
+  value: any
+};
