@@ -86,16 +86,16 @@ class Util {
     return teste
   }
 
-  public async verifyBarcode (barcode): Promise<boolean> {
+  public async verifyBarcode (barcode, id): Promise<boolean> {
     const validate = await mongoose.model('Produto').findOne({ barcode: barcode })
-
-    if (validate) return true
+    if (validate && `${validate._id}` !== id) return true
     else return false
   }
 
   public produtosValidation (data): Promise<boolean> {
     const validateList = []
     const promises = []
+    console.log(data.produtos)
 
     data.produtos.forEach((produto): void => {
       if (!validateList.find((prod): boolean => prod.id === produto.produto)) {
@@ -151,7 +151,7 @@ class Util {
     // -----------------------------------------------------
     if (data.barcode || options.barcode) {
       if (!data.barcode) msg.push(required('Barcode'))
-      else if (await this.verifyBarcode(data.barcode)) msg.push(invalid('Barcode'))
+      else if (await this.verifyBarcode(data.barcode, data._id)) msg.push(invalid('Barcode'))
     }
     // -----------------------------------------------------
     if (data.email || options.email) {

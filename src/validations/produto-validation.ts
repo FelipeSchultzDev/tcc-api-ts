@@ -23,6 +23,7 @@ class ProdutoValidation {
   }
 
   public async editar (req: Request, res: Response, next: NextFunction): Promise<Response> {
+    req.body._id = req.params.id
     const options: FieldOptions = {
       _id: true,
       nome: true,

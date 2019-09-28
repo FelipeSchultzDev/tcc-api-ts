@@ -28,6 +28,30 @@ class ProdutoController {
     else return res.status(200).json({ success: false, msg: msg.errorGet('Produto') })
   }
 
+  public async getById (req: Request, res: Response): Promise<Response> {
+    const produto = await Produto.findById({ _id: req.params.id }).populate('marca unidadeMedida', 'nome _id').select('-__v')
+
+    const marcas = await Marca.find({ status: true }).select('_id nome')
+    const tipos = await Tipo.find({ tag: 'unidade' }).select('_id nome')
+
+    const response = {
+      marcas: marcas.map((marca): Combo => {
+        return {
+          label: marca.nome,
+          value: marca._id
+        }
+      }),
+      tipos: tipos.map((tipo): Combo => {
+        return {
+          label: tipo.nome,
+          value: tipo._id
+        }
+      })
+    }
+
+    return res.status(200).json({ success: true, combo: response, produto })
+  }
+
   public async listar (req: Request, res: Response): Promise<Response> {
     const produtos = await Produto.find({ status: true }).populate('marca unidadeMedida', 'nome -_id').select('-__v')
 
@@ -83,8 +107,8 @@ class ProdutoController {
     const errorList = []
 
     validate.forEach((produto): void => {
-      if (produto.barcode === barcode) errorList.push(msg.alreadyInsert('Barcode'))
-      if (produto.nome === nome && !(`${produto._id}` === _id)) errorList.push(msg.alreadyInsert('nome'))
+      if (produto.barcode === barcode && (`${produto._id}` !== _id)) errorList.push(msg.alreadyInsert('Barcode'))
+      if (produto.nome === nome && (`${produto._id}` !== _id)) errorList.push(msg.alreadyInsert('nome'))
     })
 
     if (errorList.length > 0) return res.status(200).json({ success: false, msg: errorList })
