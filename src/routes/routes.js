@@ -53,5 +53,8 @@ router.get('/movimento', movimentoCtrl.listar)
 
 // Terminal de vendas
 router.post('/venda/vender', vendaVal.vender, vendaCtrl.vender)
+router.get('/venda/listaProduto', vendaCtrl.getProdutos)
+router.get('/venda/listaProduto/:id', vendaCtrl.getProdutoById)
+router.get('/venda/validarQuantidade/:id', vendaCtrl.validateQuantidade)
 
 export default router
