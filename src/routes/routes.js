@@ -49,12 +49,13 @@ router.put('/produto/:id', produtoVal.editar, produtoCtrl.editar) // Ok
 router.delete('/produto/:id', produtoVal.deletar, produtoCtrl.deletar) // Ok
 
 // Movimento
-router.get('/movimento', movimentoCtrl.listar)
+router.get('/movimento', movimentoCtrl.listar) // Ok
 
 // Terminal de vendas
-router.post('/venda/vender', vendaVal.vender, vendaCtrl.vender)
-router.get('/venda/listaProduto', vendaCtrl.getProdutos)
-router.get('/venda/listaProduto/:id', vendaCtrl.getProdutoById)
-router.get('/venda/validarQuantidade/:id', vendaCtrl.validateQuantidade)
+router.post('/venda/vender', vendaVal.vender, vendaCtrl.vender) // Ok
+router.get('/venda/listaProduto', vendaCtrl.getProdutos) // Ok
+router.get('/venda/listaProduto/:id', vendaCtrl.getProdutoById) // Ok
+router.get('/venda/validarQuantidade/:id', vendaCtrl.validateQuantidade) // Ok
+router.get('/venda', vendaCtrl.getVendas)
 
 export default router

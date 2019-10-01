@@ -51,6 +51,19 @@ class VendaController {
       .catch((err): Response => res.status(200).json({ success: false, msg: err }))
   }
 
+  public async getVendas (req: Request, res: Response): Promise<void> {
+    const vendas = await Venda.find().select('-__v')
+
+    // const newLista = vendas.map((produto: ProdutoInterface): ListaProdutos => {
+    //   return {
+    //     label: produto.nome,
+    //     value: produto._id
+    //   }
+    // })
+
+    res.status(200).send({ success: true, vendas })
+  }
+
   public async getProdutos (req: Request, res: Response): Promise<void> {
     const produtos = await Produto.find()
 
