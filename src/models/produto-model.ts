@@ -3,8 +3,7 @@ import { Schema, model } from 'mongoose'
 import { ProdutoInterface } from './../class/interface'
 
 const Produto = new Schema({
-  nome: { type: String, required: true },
-  barcode: { type: String, required: true },
+  nome: { type: String, required: true, lowercase: true },
   valorVenda: { type: Number, required: true },
   marca: { type: Schema.Types.ObjectId, required: false, ref: 'Marca' },
   unidadeMedida: { type: Schema.Types.ObjectId, ref: 'Tipo', required: true },

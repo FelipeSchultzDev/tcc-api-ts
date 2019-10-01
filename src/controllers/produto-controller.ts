@@ -83,9 +83,9 @@ class ProdutoController {
   }
 
   public async cadastrar (req: Request, res: Response): Promise<Response> {
-    const validate = await Produto.findOne({ nome: req.body.nome })
+    const validate = await Produto.findOne({ nome: req.body.nome.toLowerCase() })
 
-    if (validate) return res.status(200).json({ success: false, msg: [msg.alreadyInsert('Produto')] })
+    if (validate) return res.status(200).json({ success: false, msg: [msg.alreadyInsert('nome')] })
 
     const produto = await Produto.create(req.body)
 
@@ -95,20 +95,13 @@ class ProdutoController {
   }
 
   public async editar (req: Request, res: Response): Promise<Response> {
-    const { _id, barcode, nome }: ProdutoInterface = { ...req.body }
-    const validateList = {
-      $or: [
-        { barcode: barcode },
-        { nome: nome }
-      ]
-    }
+    const { _id, nome }: ProdutoInterface = { ...req.body }
 
-    const validate = await Produto.find(validateList)
+    const validate = await Produto.find({ nome: nome })
     const errorList = []
 
     validate.forEach((produto): void => {
-      if (produto.barcode === barcode && (`${produto._id}` !== _id)) errorList.push(msg.alreadyInsert('Barcode'))
-      if (produto.nome === nome && (`${produto._id}` !== _id)) errorList.push(msg.alreadyInsert('nome'))
+      if (produto.nome === nome.toLowerCase() && (`${produto._id}` !== _id)) errorList.push(msg.alreadyInsert('nome'))
     })
 
     if (errorList.length > 0) return res.status(200).json({ success: false, msg: errorList })

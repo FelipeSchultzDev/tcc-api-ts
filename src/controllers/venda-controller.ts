@@ -65,7 +65,7 @@ class VendaController {
   }
 
   public async getProdutoById (req: Request, res: Response): Promise<void> {
-    const produto = await Produto.findById({ _id: req.params.id }).select('barcode valorVenda')
+    const produto = await Produto.findById({ _id: req.params.id }).select('valorVenda')
 
     res.status(200).send({ success: true, produto })
   }

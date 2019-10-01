@@ -86,12 +86,6 @@ class Util {
     return teste
   }
 
-  public async verifyBarcode (barcode, id): Promise<boolean> {
-    const validate = await mongoose.model('Produto').findOne({ barcode: barcode })
-    if (validate && `${validate._id}` !== id) return true
-    else return false
-  }
-
   public produtosValidation (data): Promise<boolean> {
     const validateList = []
     const promises = []
@@ -147,11 +141,6 @@ class Util {
     // -----------------------------------------------------
     if (data.nome || options.nome) {
       if (!data.nome || !(data.nome.length > 0)) msg.push(required('nome'))
-    }
-    // -----------------------------------------------------
-    if (data.barcode || options.barcode) {
-      if (!data.barcode) msg.push(required('Barcode'))
-      else if (await this.verifyBarcode(data.barcode, data._id)) msg.push(invalid('Barcode'))
     }
     // -----------------------------------------------------
     if (data.email || options.email) {
