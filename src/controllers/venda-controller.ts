@@ -52,14 +52,7 @@ class VendaController {
   }
 
   public async getVendas (req: Request, res: Response): Promise<void> {
-    const vendas = await Venda.find().select('-__v').populate('cliente', 'nome')
-
-    // const newLista = vendas.map((produto: ProdutoInterface): ListaProdutos => {
-    //   return {
-    //     label: produto.nome,
-    //     value: produto._id
-    //   }
-    // })
+    const vendas = await Venda.find().select('-__v').populate('cliente', 'nome').populate('produtos.produto', 'nome', 'Produto')
 
     res.status(200).send({ success: true, vendas })
   }
