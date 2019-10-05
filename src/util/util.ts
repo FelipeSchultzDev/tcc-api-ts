@@ -89,8 +89,6 @@ class Util {
   public produtosValidation (data): Promise<boolean> {
     const validateList = []
     const promises = []
-    // console.log(data.produtos)
-
     data.produtos.forEach((produto): void => {
       if (!validateList.find((prod): boolean => prod.id === produto.produto)) {
         validateList.push({ id: produto.produto, quantidade: 0 })
@@ -102,7 +100,6 @@ class Util {
         if (prod.produto === produto.id) produto.quantidade += typeof prod.quantidade === 'string' ? Number(prod.quantidade) : 0
       })
     })
-    console.log(validateList)
 
     validateList.forEach((produto): void => {
       promises.push(Produto.findOne({ _id: produto.id }))

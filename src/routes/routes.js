@@ -14,6 +14,8 @@ import produtoVal from './../validations/produto-validation'
 import vendaCtrl from './../controllers/venda-controller'
 import vendaVal from './../validations/venda-validation'
 
+import HomeCtrl from './../controllers/home-controller'
+
 const router = Router()
 
 // Cliente
@@ -57,5 +59,8 @@ router.get('/venda/listaProduto', vendaCtrl.getProdutos) // Ok
 router.get('/venda/listaProduto/:id', vendaCtrl.getProdutoById) // Ok
 router.get('/venda/validarQuantidade/:id', vendaCtrl.validateQuantidade) // Ok
 router.get('/venda', vendaCtrl.getVendas)
+
+// Home
+router.get('/home', HomeCtrl.getHomeData)
 
 export default router
