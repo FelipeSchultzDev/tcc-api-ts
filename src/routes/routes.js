@@ -42,6 +42,7 @@ router.get('/produto/desabilitados', produtoCtrl.ld) // Ok
 router.get('/produto/habilitados', produtoCtrl.listar) // Ok
 router.get('/produto/comboOptions', produtoCtrl.comboOptions) // Ok
 router.get('/produto/:id', produtoCtrl.getById) // Ok
+router.get('/produto/:id/valorMinimo', produtoCtrl.valorMinimo) // Ok
 router.post('/produto', produtoVal.cadastrar, produtoCtrl.cadastrar) // Ok
 router.put('/produto/:id/ativar', produtoVal.ativar, produtoCtrl.ativar) // Ok
 router.put('/produto/:id/desativar', produtoVal.desativar, produtoCtrl.desativar) // Ok

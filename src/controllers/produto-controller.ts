@@ -13,9 +13,12 @@ const createMovimento = (data, type: string): Promise<boolean> => {
 
     if (!tipo) reject(new Error(`O tipo "${type}" não existe no banco`))
 
-    Movimento.create({ produto: data._id, tipo: tipo, quantidade: data.quantidade, valor: data.valor, descricao: data.descricao })
+    Movimento.create({ produto: data._id, tipo: tipo, quantidade: data.quantidade, valor: data.valor })
       .then((): void => resolve(true))
-      .catch((): void => reject(new Error('Erro ao criar movimento')))
+      .catch((err): void => {
+        console.log(err)
+        return reject(new Error('Erro ao criar movimento'))
+      })
   })
 }
 
@@ -50,6 +53,12 @@ class ProdutoController {
     }
 
     return res.status(200).json({ success: true, combo: response, produto })
+  }
+
+  public async valorMinimo (req: Request, res: Response): Promise<Response> {
+    const produto = await Produto.findById({ _id: req.params.id }).select('quantidade')
+
+    return res.status(200).json({ success: true, quantidade: produto.quantidade })
   }
 
   public async listar (req: Request, res: Response): Promise<Response> {
@@ -121,7 +130,10 @@ class ProdutoController {
         return createMovimento(req.body, 'entrada')
       })
       .then((): Response => res.status(200).json({ success: true, msg: msg.successUpdate('Produto') }))
-      .catch((): Response => res.status(200).json({ success: false, msg: msg.errorUpdate('Produto') }))
+      .catch((err): Response => {
+        console.log(err)
+        return res.status(200).json({ success: false, msg: msg.errorUpdate('Produto') })
+      })
   }
 
   public async retiradaEstoque (req: Request, res: Response): Promise<Response> {
@@ -134,6 +146,7 @@ class ProdutoController {
 
     Produto.findOneAndUpdate({ _id: _id }, { $inc: { quantidade: -quantidade } })
       .then((): Promise<boolean> => {
+        req.body.valor = 0
         return createMovimento(req.body, 'retirada')
       })
       .then((): Response => res.status(200).json({ success: true, msg: msg.successUpdate('Produto') }))

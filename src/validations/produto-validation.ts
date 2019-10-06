@@ -36,6 +36,7 @@ class ProdutoValidation {
   }
 
   public async entradaEstoque (req: Request, res: Response, next: NextFunction): Promise<Response> {
+    req.body._id = req.params.id
     const options: FieldOptions = {
       _id: true,
       quantidade: true,
@@ -50,10 +51,10 @@ class ProdutoValidation {
   }
 
   public async retiradaEstoque (req: Request, res: Response, next: NextFunction): Promise<Response> {
+    req.body._id = req.params.id
     const options: FieldOptions = {
       _id: true,
       quantidade: true,
-      descricao: true,
       model: 'Produto'
     }
 
