@@ -1,6 +1,6 @@
 const variables = {
   Api: {
-    port: process.env.port || 3001
+    port: process.env.PORT || 3001
   },
   Database: {
     connection: process.env.connection || 'mongodb://localhost/tcc'
