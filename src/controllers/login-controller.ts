@@ -31,7 +31,7 @@ class LoginController {
 
     if (token) {
       try {
-        await jwt.verify(token, variables.Security.secretKey).user
+        jwt.verify(token, variables.Security.secretKey)
         return res.status(200).send({ success: true })
       } catch (error) {
         return res.status(200).send({ success: false })
