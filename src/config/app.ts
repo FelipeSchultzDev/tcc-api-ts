@@ -33,7 +33,7 @@ class App {
         useFindAndModify: false,
         useCreateIndex: true
       }
-      connect('mongodb://localhost/tcc', options)
+      connect('mongodb+srv://admin:0000@cluster0-d69u7.mongodb.net/test?retryWrites=true&w=majority', options)
         .then((): void => {
           ColorCMD('blue', '', '[mongoose] Conectado')
         })
