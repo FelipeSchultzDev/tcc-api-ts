@@ -1,0 +1,64 @@
+# API Rotas
+
+Rotas para a api.
+
+## Rotas
+
+Sempre começam com um endereço base. Ex.
+
+```bash
+http://localhost:3000
+```
+
+## Login
+
+```
+'post': /login | Efetuar login(retorna um token)
+{
+  usuario: string,
+  senha: string
+}
+```
+```
+'post': /login/validate | Validação do token
+{
+  usuario: string,
+  senha: string
+}
+```
+
+## Marca
+
+```
+'get': /marca/desabilitados | Lista de marcas desabilitadas
+```
+
+```
+'get': /marca/habilitados | Lista de marcas habilitadas
+```
+
+```
+'post': /marca | Cadastrar marca
+{
+  nome: string
+}
+```
+
+```
+'put': /marca/:id/ativar | Habilita uma marca
+```
+
+```
+'put': /marca/:id/desativar| desabilita uma marca
+```
+
+```
+'put': /marca/:id/editar| Edita uma marca
+{
+  nome: string
+}
+```
+
+```
+'delete': /marca/:id/deletar| Deleta uma marca
+```

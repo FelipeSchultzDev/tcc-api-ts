@@ -9,16 +9,22 @@ class ClienteController {
     const clientes = await Cliente.find({ status: false }).select('-__v -updatedAt')
 
     if (clientes && clientes.length > 0) return res.status(200).json({ success: true, clientes: clientes })
-    else if (clientes && !(clientes.length > 0)) return res.status(400).json({ success: false, msg: msg.notFound('Cliente') })
-    else return res.status(400).json({ success: false, msg: msg.errorGet('Cliente') })
+    else if (clientes && !(clientes.length > 0)) return res.status(200).json({ success: false, msg: msg.notFound('Cliente') })
+    else return res.status(200).json({ success: false, msg: msg.errorGet('Cliente') })
   }
 
   public async listar (req: Request, res: Response): Promise<Response> {
     const clientes = await Cliente.find({ status: true }).select('-__v -updatedAt')
 
     if (clientes && clientes.length > 0) return res.status(200).json({ success: true, clientes: clientes })
-    else if (clientes && !(clientes.length > 0)) return res.status(400).json({ success: false, msg: msg.notFound('Cliente') })
-    else return res.status(400).json({ success: false, msg: msg.errorGet('Cliente') })
+    else if (clientes && !(clientes.length > 0)) return res.status(200).json({ success: false, msg: msg.notFound('Cliente') })
+    else return res.status(200).json({ success: false, msg: msg.errorGet('Cliente') })
+  }
+
+  public async getById (req: Request, res: Response): Promise<Response> {
+    const cliente = await Cliente.findById({ _id: req.params.id }).select('-__v -updatedAt')
+    if (cliente) return res.status(200).json({ success: true, cliente })
+    return res.status(200).json({ success: false, msg: msg.errorGet('Cliente') })
   }
 
   public async cadastrar (req: Request, res: Response): Promise<Response> {
@@ -37,18 +43,18 @@ class ClienteController {
     const errorList = []
 
     validate.forEach((cliente): void => {
-      if (cliente.celular === celular) errorList.push(msg.alreadyInsert('Celular'))
-      if (cliente.email === email) errorList.push(msg.alreadyInsert('email'))
+      if (cliente.celular === celular && cliente.celular !== '') errorList.push(msg.alreadyInsert('Celular'))
+      if (cliente.email === email && cliente.email !== '') errorList.push(msg.alreadyInsert('email'))
       if (cliente.cpf === cpf) errorList.push(msg.alreadyInsert('cpf'))
     })
 
-    if (errorList.length > 0) return res.status(400).json({ success: false, msg: errorList })
+    if (errorList.length > 0) return res.status(200).json({ success: false, msg: errorList })
 
     const cliente = await Cliente.create(req.body)
 
     if (cliente) return res.status(200).json({ success: true, msg: msg.successInsert('Cliente') })
 
-    return res.status(400).json({ success: false, msg: msg.errorInsert('Cliente') })
+    return res.status(200).json({ success: false, msg: msg.errorInsert('Cliente') })
   }
 
   public async editar (req: Request, res: Response): Promise<Response> {
@@ -67,18 +73,18 @@ class ClienteController {
 
     for (let i = 0; i < validate.length; i++) {
       const cliente = validate[i]
-      if (cliente.celular === celular && !(cliente._id === _id)) errorList.push(msg.alreadyInsert('Celular'))
-      if (cliente.email === email && !(cliente._id === _id)) errorList.push(msg.alreadyInsert('email'))
-      if (cliente.cpf === cpf && !(cliente._id === _id)) errorList.push(msg.alreadyInsert('cpf'))
+      if (cliente.celular === celular && cliente.celular !== '' && !(cliente._id.toString() === _id)) errorList.push(msg.alreadyInsert('Celular'))
+      if (cliente.email === email && cliente.email !== '' && !(cliente._id.toString() === _id)) errorList.push(msg.alreadyInsert('email'))
+      if (cliente.cpf === cpf && cliente.cpf !== '' && !(cliente._id.toString() === _id)) errorList.push(msg.alreadyInsert('cpf'))
     }
 
-    if (errorList.length > 0) return res.status(400).json({ success: false, msg: errorList })
+    if (errorList.length > 0) return res.status(200).json({ success: false, msg: errorList })
 
     const cliente = await Cliente.findOneAndUpdate({ _id: _id }, req.body)
 
     if (cliente) return res.status(200).json({ success: true, msg: msg.successUpdate('Cliente') })
 
-    return res.status(400).json({ success: false, msg: msg.errorUpdate('Cliente') })
+    return res.status(200).json({ success: false, msg: msg.errorUpdate('Cliente') })
   }
 
   public async desativar (req: Request, res: Response): Promise<void> {
@@ -87,7 +93,7 @@ class ClienteController {
         return res.status(200).json({ success: true, msg: msg.disabled('Cliente') })
       })
       .catch((): Response => {
-        return res.status(400).json({ success: false, msg: 'Erro ao desativar' })
+        return res.status(200).json({ success: false, msg: 'Erro ao desativar' })
       })
   }
 
@@ -97,14 +103,14 @@ class ClienteController {
         return res.status(200).json({ success: true, msg: msg.enabled('Cliente') })
       })
       .catch((): Response => {
-        return res.status(400).json({ success: false, msg: 'Erro ao desativar' })
+        return res.status(200).json({ success: false, msg: 'Erro ao desativar' })
       })
   }
 
   public async deletar (req: Request, res: Response): Promise<Response> {
     const validate = await Cliente.findOne({ _id: req.body._id })
 
-    if (validate && validate.compras.length > 0) return res.status(400).json({ success: false, msg: msg.cantDelete('Cliente') })
+    if (validate && validate.compras.length > 0) return res.status(200).json({ success: false, msg: msg.cantDelete('Cliente') })
 
     await Cliente.findByIdAndDelete(req.body._id)
 

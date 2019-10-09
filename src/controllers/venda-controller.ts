@@ -4,7 +4,7 @@ import Venda from '../models/venda-model'
 import Tipo from '../models/tipo-model'
 import Movimento from '../models/movimento-model'
 import Produto from '../models/produto-model'
-import { VendaInterface } from '../class/interface'
+import { VendaInterface, ProdutoInterface } from '../class/interface'
 import { MovimentoClass } from '../class/class'
 
 const createMovimento = (data: VendaInterface): Promise<boolean> => {
@@ -48,8 +48,46 @@ class VendaController {
         return updateProduto(req.body)
       })
       .then((): Response => res.status(200).json({ success: true, msg: 'Venda concluida' }))
-      .catch((err): Response => res.status(400).json({ success: false, msg: err }))
+      .catch((err): Response => res.status(200).json({ success: false, msg: err }))
+  }
+
+  public async getVendas (req: Request, res: Response): Promise<void> {
+    const vendas = await Venda.find().select('-__v').populate('cliente', 'nome').populate('produtos.produto', 'nome', 'Produto')
+
+    res.status(200).send({ success: true, vendas })
+  }
+
+  public async getProdutos (req: Request, res: Response): Promise<void> {
+    const produtos = await Produto.find()
+
+    const newLista = produtos.map((produto: ProdutoInterface): ListaProdutos => {
+      return {
+        label: produto.nome,
+        value: produto._id
+      }
+    })
+
+    res.status(200).send({ success: true, produtos: newLista })
+  }
+
+  public async getProdutoById (req: Request, res: Response): Promise<void> {
+    const produto = await Produto.findById({ _id: req.params.id }).select('valorVenda')
+
+    res.status(200).send({ success: true, produto })
+  }
+
+  public async validateQuantidade (req: Request, res: Response): Promise<void> {
+    const produto = await Produto.findById({ _id: req.params.id }).select('quantidade')
+
+    const quantidade = parseInt(req.query.qtd)
+
+    res.status(200).send({ success: true, validate: quantidade <= produto.quantidade })
   }
 }
 
 module.exports = new VendaController()
+
+interface ListaProdutos {
+  label: string;
+  value: string
+}

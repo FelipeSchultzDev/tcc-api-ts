@@ -12,7 +12,7 @@ class LoginController {
       senha: util.encode(req.body.senha)
     })
 
-    if (!acesso) return res.status(401).json({ success: false, msg: 'Usuário ou senha incorretos' })
+    if (!acesso) return res.status(200).json({ success: false, msg: 'Usuário ou senha incorretos' })
 
     const user = {
       id: acesso._id,
@@ -31,8 +31,7 @@ class LoginController {
 
     if (token) {
       try {
-        let decoded = await jwt.verify(token, variables.Security.secretKey).user
-        res.locals.user = decoded
+        jwt.verify(token, variables.Security.secretKey)
         return res.status(200).send({ success: true })
       } catch (error) {
         return res.status(200).send({ success: false })

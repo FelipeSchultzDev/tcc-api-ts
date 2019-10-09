@@ -86,19 +86,9 @@ class Util {
     return teste
   }
 
-  public async verifyBarcode (barcode): Promise<boolean> {
-    const validate = await mongoose.model('Produto').findOne({ barcode: barcode })
-
-    console.log(!validate)
-
-    if (validate) return true
-    else return false
-  }
-
   public produtosValidation (data): Promise<boolean> {
     const validateList = []
     const promises = []
-
     data.produtos.forEach((produto): void => {
       if (!validateList.find((prod): boolean => prod.id === produto.produto)) {
         validateList.push({ id: produto.produto, quantidade: 0 })
@@ -107,15 +97,14 @@ class Util {
 
     validateList.forEach((produto): void => {
       data.produtos.forEach((prod): void => {
-        if (prod.produto === produto.id) produto.quantidade += prod.quantidade
+        if (prod.produto === produto.id) produto.quantidade += typeof prod.quantidade === 'string' ? Number(prod.quantidade) : 0
       })
     })
 
     validateList.forEach((produto): void => {
       promises.push(Produto.findOne({ _id: produto.id }))
-      // if (!validate) reject(new Error('erro'))
-      // else if (validate.quantidade < produto.quantidade) reject(new Error('erro'))
     })
+
     return new Promise((resolve): void => {
       Promise.all(promises)
         .then((res): void => {
@@ -128,7 +117,7 @@ class Util {
           })
           resolve(true)
         })
-        .catch((): void => {
+        .catch((e): void => {
           resolve(false)
         })
     })
@@ -151,17 +140,15 @@ class Util {
       if (!data.nome || !(data.nome.length > 0)) msg.push(required('nome'))
     }
     // -----------------------------------------------------
-    if (data.barcode || options.barcode) {
-      if (!data.barcode) msg.push(required('Barcode'))
-      else if (await this.verifyBarcode(data.barcode)) msg.push(invalid('Barcode'))
-    }
-    // -----------------------------------------------------
     if (data.email || options.email) {
-      if (!data.email || !(data.email.length > 0)) msg.push(required('e-mail'))
-      else if (!this.emailValidation(data.email)) msg.push(invalid('E-mail'))
+      if (!data.email || !(data.email.length > 0)) msg.push(required('email'))
+      else if (!this.emailValidation(data.email)) msg.push(invalid('Email'))
     }
     // -----------------------------------------------------
     if (data.cpf || options.cpf) {
+      if (data.cpf.length > 11) {
+        data.cpf = data.cpf.replace('.', '').replace('.', '').replace('.', '').replace('-', '')
+      }
       if (!data.cpf || !(data.cpf.length > 0)) msg.push(required('cpf'))
       else if (!this.cpfValidation(data.cpf)) msg.push(invalid('Cpf'))
     }

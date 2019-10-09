@@ -7,7 +7,6 @@ class ProdutoValidation {
   public async cadastrar (req: Request, res: Response, next: NextFunction): Promise<Response> {
     const options: FieldOptions = {
       nome: true,
-      barcode: true,
       valorVenda: true,
       unidadeMedida: true,
       quantidade: true,
@@ -23,10 +22,10 @@ class ProdutoValidation {
   }
 
   public async editar (req: Request, res: Response, next: NextFunction): Promise<Response> {
+    req.body._id = req.params.id
     const options: FieldOptions = {
       _id: true,
       nome: true,
-      barcode: true,
       model: 'Produto'
     }
     const { msg, data } = await util.verifyFields(req.body, options)
@@ -37,6 +36,7 @@ class ProdutoValidation {
   }
 
   public async entradaEstoque (req: Request, res: Response, next: NextFunction): Promise<Response> {
+    req.body._id = req.params.id
     const options: FieldOptions = {
       _id: true,
       quantidade: true,
@@ -51,10 +51,10 @@ class ProdutoValidation {
   }
 
   public async retiradaEstoque (req: Request, res: Response, next: NextFunction): Promise<Response> {
+    req.body._id = req.params.id
     const options: FieldOptions = {
       _id: true,
       quantidade: true,
-      descricao: true,
       model: 'Produto'
     }
 
@@ -66,6 +66,7 @@ class ProdutoValidation {
   }
 
   public async desativar (req: Request, res: Response, next: NextFunction): Promise<Response> {
+    req.body._id = req.params.id
     const { msg, data } = await util.verifyFields(req.body, { _id: true, model: 'Produto' })
     req.body = data
 
@@ -74,6 +75,7 @@ class ProdutoValidation {
   }
 
   public async ativar (req: Request, res: Response, next: NextFunction): Promise<Response> {
+    req.body._id = req.params.id
     const { msg, data } = await util.verifyFields(req.body, { _id: true, model: 'Produto' })
     req.body = data
 
@@ -82,6 +84,7 @@ class ProdutoValidation {
   }
 
   public async deletar (req: Request, res: Response, next: NextFunction): Promise<Response> {
+    req.body._id = req.params.id
     const { msg, data } = await util.verifyFields(req.body, { _id: true, model: 'Produto' })
     req.body = data
 

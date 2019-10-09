@@ -7,7 +7,7 @@ let autoCreatePermission = async (): Promise<void> => {
     { nome: 'venda', tag: 'movimento' },
     { nome: 'retirada', tag: 'movimento' },
     { nome: 'un', tag: 'unidade' },
-    { nome: 'pct', tag: 'venda' }
+    { nome: 'pct', tag: 'unidade' }
   ]
 
   await Tipo.create(tipos)

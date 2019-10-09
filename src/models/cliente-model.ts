@@ -4,10 +4,10 @@ import { ClienteInterface } from './../class/interface'
 
 const Cliente = new Schema({
   nome: { type: String, required: true },
-  email: { type: String, required: true, default: '-' },
+  email: { type: String, required: false, default: '' },
   cpf: { type: String, required: true },
   nascimento: { type: Date, required: true },
-  celular: { type: String, required: true, default: '-' },
+  celular: { type: String, required: false, default: '' },
   compras: [{ type: Schema.Types.ObjectId, ref: 'Venda' }],
   status: { type: Boolean, required: true, default: true }
 }, {

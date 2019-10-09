@@ -14,41 +14,54 @@ import produtoVal from './../validations/produto-validation'
 import vendaCtrl from './../controllers/venda-controller'
 import vendaVal from './../validations/venda-validation'
 
+import HomeCtrl from './../controllers/home-controller'
+
 const router = Router()
 
 // Cliente
-router.get('/cliente/listar_desabilitados', clientCtrl.ld)
-router.get('/cliente/listar', clientCtrl.listar)
-router.post('/cliente/cadastrar', clienteVal.cadastrar, clientCtrl.cadastrar)
-router.put('/cliente/ativar', clienteVal.ativar, clientCtrl.ativar)
-router.put('/cliente/desativar', clienteVal.desativar, clientCtrl.desativar)
-router.put('/cliente/editar', clienteVal.editar, clientCtrl.editar)
-router.delete('/cliente/deletar', clienteVal.deletar, clientCtrl.deletar)
+router.get('/cliente/desabilitados', clientCtrl.ld) // Ok
+router.get('/cliente/habilitados', clientCtrl.listar) // Ok
+router.get('/cliente/:id', clienteVal.getById, clientCtrl.getById) // Ok
+router.post('/cliente', clienteVal.cadastrar, clientCtrl.cadastrar) // Ok
+router.put('/cliente/:id/ativar', clienteVal.ativar, clientCtrl.ativar) // Ok
+router.put('/cliente/:id/desativar', clienteVal.desativar, clientCtrl.desativar) // Ok
+router.put('/cliente/:id', clienteVal.editar, clientCtrl.editar) // Ok
+router.delete('/cliente/:id', clienteVal.deletar, clientCtrl.deletar) // Ok
 
 // Marca
-router.get('/marca/listar_desabilitados', marcaCtrl.ld)
-router.get('/marca/listar', marcaCtrl.listar)
-router.post('/marca/cadastrar', marcaVal.cadastrar, marcaCtrl.cadastrar)
-router.put('/marca/ativar', marcaVal.ativar, marcaCtrl.ativar)
-router.put('/marca/desativar', marcaVal.desativar, marcaCtrl.desativar)
-router.put('/marca/editar', marcaVal.editar, marcaCtrl.editar)
-router.delete('/marca/deletar', marcaVal.deletar, marcaCtrl.deletar)
+router.get('/marca/desabilitados', marcaCtrl.ld) // Ok
+router.get('/marca/habilitados', marcaCtrl.listar) // Ok
+router.post('/marca', marcaVal.cadastrar, marcaCtrl.cadastrar) // Ok
+router.put('/marca/:id/ativar', marcaVal.ativar, marcaCtrl.ativar) // Ok
+router.put('/marca/:id/desativar', marcaVal.desativar, marcaCtrl.desativar) // Ok
+router.put('/marca/:id', marcaVal.editar, marcaCtrl.editar) // Ok
+router.delete('/marca/:id', marcaVal.deletar, marcaCtrl.deletar) // Ok
 
 // Produto
-router.get('/produto/listar_desabilitados', produtoCtrl.ld)
-router.get('/produto/listar', produtoCtrl.listar)
-router.post('/produto/cadastrar', produtoVal.cadastrar, produtoCtrl.cadastrar)
-router.put('/produto/ativar', produtoVal.ativar, produtoCtrl.ativar)
-router.put('/produto/desativar', produtoVal.desativar, produtoCtrl.desativar)
-router.put('/produto/entrada_estoque', produtoVal.entradaEstoque, produtoCtrl.entradaEstoque)
-router.put('/produto/retirada_estoque', produtoVal.retiradaEstoque, produtoCtrl.retiradaEstoque)
-router.put('/produto/editar', produtoVal.editar, produtoCtrl.editar)
-router.delete('/produto/deletar', produtoVal.deletar, produtoCtrl.deletar)
+router.get('/produto/desabilitados', produtoCtrl.ld) // Ok
+router.get('/produto/habilitados', produtoCtrl.listar) // Ok
+router.get('/produto/comboOptions', produtoCtrl.comboOptions) // Ok
+router.get('/produto/:id', produtoCtrl.getById) // Ok
+router.get('/produto/:id/valorMinimo', produtoCtrl.valorMinimo) // Ok
+router.post('/produto', produtoVal.cadastrar, produtoCtrl.cadastrar) // Ok
+router.put('/produto/:id/ativar', produtoVal.ativar, produtoCtrl.ativar) // Ok
+router.put('/produto/:id/desativar', produtoVal.desativar, produtoCtrl.desativar) // Ok
+router.put('/produto/:id/entrada_estoque', produtoVal.entradaEstoque, produtoCtrl.entradaEstoque)
+router.put('/produto/:id/retirada_estoque', produtoVal.retiradaEstoque, produtoCtrl.retiradaEstoque)
+router.put('/produto/:id', produtoVal.editar, produtoCtrl.editar) // Ok
+router.delete('/produto/:id', produtoVal.deletar, produtoCtrl.deletar) // Ok
 
 // Movimento
-router.get('/movimento/', movimentoCtrl.listar)
+router.get('/movimento', movimentoCtrl.listar) // Ok
 
 // Terminal de vendas
-router.post('/venda/vender', vendaVal.vender, vendaCtrl.vender)
+router.post('/venda/vender', vendaVal.vender, vendaCtrl.vender) // Ok
+router.get('/venda/listaProduto', vendaCtrl.getProdutos) // Ok
+router.get('/venda/listaProduto/:id', vendaCtrl.getProdutoById) // Ok
+router.get('/venda/validarQuantidade/:id', vendaCtrl.validateQuantidade) // Ok
+router.get('/venda', vendaCtrl.getVendas)
+
+// Home
+router.get('/home', HomeCtrl.getHomeData)
 
 export default router

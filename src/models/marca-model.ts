@@ -6,6 +6,6 @@ const Marca = new Schema({
   nome: { type: String, required: true, lowercase: true },
   status: { type: Boolean, required: true, default: true }
 }, {
-  timestamps: false
+  timestamps: true
 })
 export default model<MarcaInterface>('Marca', Marca)
