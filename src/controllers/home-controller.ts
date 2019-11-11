@@ -3,7 +3,7 @@ import { Request, Response } from 'express'
 import VendasModel from './../models/venda-model'
 import ProdutoModel from './../models/produto-model'
 
-const fixZero = (n: number): string => (n > 0 && n < 10) ? `0${n}` : n.toString()
+const fixZero = (n: number): string => (n >= 0 && n < 10) ? `0${n}` : n.toString()
 
 class HomeController {
   public async getHomeData (req: Request, res: Response): Promise<Response> {
